@@ -1,13 +1,12 @@
-from sqlalchemy import Column, Integer, String, Text
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Text
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from common.models.entity_base import EntityBase
 
-class Category(Base):
+
+class Category(EntityBase):
     __tablename__ = "categories"
 
-    id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
     description = Column(Text, nullable=True)
 
