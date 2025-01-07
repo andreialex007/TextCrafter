@@ -1,7 +1,7 @@
-from common.models.entity_base import EntityBase
+from common.models.dto_base import DtoBase
 
 
-class SettingDto(EntityBase):
+class SettingDto(DtoBase):
     user_id: int
     name: str
     value: str

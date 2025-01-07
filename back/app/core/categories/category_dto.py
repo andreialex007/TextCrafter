@@ -1,6 +1,6 @@
-from common.models.entity_base import EntityBase
+from common.models.dto_base import DtoBase
 
 
-class CategoryDto(EntityBase):
+class CategoryDto(DtoBase):
     id: int
     name: str
