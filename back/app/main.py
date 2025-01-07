@@ -3,16 +3,18 @@ from fastapi import FastAPI
 import uvicorn
 
 from core.users import router as users_router
+from core.auth import auth_utils
 
 app = FastAPI()
 
 app.include_router(users_router.router)
+app.include_router(auth_utils.router)
 
 
 @app.get("/")
 def root():
     router = app.router
-    return {"message": "Welcome to the FastAPI application TEST!"}
+    return {"message": "Working!!!"}
 
 
 # enable "Emulate terminal in output console"
