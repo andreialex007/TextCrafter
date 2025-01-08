@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-class AppStore {
+export default class AppStore {
     count = 0;
 
     constructor() {
@@ -15,5 +15,3 @@ class AppStore {
         this.count -= 1;
     }
 }
-
-export const appStore = new AppStore();
