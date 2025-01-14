@@ -1,27 +1,32 @@
-import './App.css'
-import {observer} from "mobx-react-lite";
-import AppStore from './AppStore'
+import './App.css';
+import { observer } from 'mobx-react-lite';
+import AppStore from './AppStore';
 
 let store = new AppStore();
 
 export default observer(() => {
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <h1 className="text-3xl font-bold">Counter: {store.count}</h1>
-            <div className="mt-4 space-x-4">
-                <button
-                    className="px-4 py-2 text-white bg-blue-500 rounded"
-                    onClick={() => store.increment()}
-                >
-                    Increment
-                </button>
-                <button
-                    className="px-4 py-2 text-white bg-red-500 rounded"
-                    onClick={() => store.decrement()}
-                >
-                    Decrement
-                </button>
-            </div>
-        </div>
-    )
+	return (
+		<div className="flex min-h-screen flex-col">
+			<div className="flex gap-3 bg-gradient-to-b from-gray-300 to-gray-200 p-3 shadow-sm child:flex child:cursor-pointer child:items-center child:gap-2 child:rounded child:bg-white child:p-2 child:px-4 child:text-black child:shadow-md hover:child:opacity-80">
+				<div>
+					<i className="fa fa-file-lines"></i>
+					Prompts
+				</div>
+				<div>
+					<i className="fa fa-user"></i>
+					Users
+				</div>
+				<div>
+					<i className="fa fa-wrench"></i>
+					Settings
+				</div>
+				<div className="flex-grow cursor-default bg-transparent shadow-none"></div>
+				<div>
+					<i className="fa fa-person-running"></i>
+					Logout
+				</div>
+			</div>
+			<div className="p-5">Main content</div>
+		</div>
+	);
 });

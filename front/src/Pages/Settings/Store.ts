@@ -1,11 +1,9 @@
-import {action, makeAutoObservable, makeObservable, observable} from 'mobx';
+import { action, makeAutoObservable, makeObservable, observable } from 'mobx';
 
 export default class Store {
+	loading = false;
 
-    loading = false;
-
-    constructor() {
-        makeAutoObservable(this);
-    }
-
+	constructor() {
+		makeAutoObservable(this);
+	}
 }

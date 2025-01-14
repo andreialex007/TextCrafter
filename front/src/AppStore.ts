@@ -1,17 +1,17 @@
-import {makeAutoObservable} from "mobx";
+import { makeAutoObservable } from 'mobx';
 
 export default class AppStore {
-    count = 0;
+	count = 0;
 
-    constructor() {
-        makeAutoObservable(this);
-    }
+	constructor() {
+		makeAutoObservable(this);
+	}
 
-    increment() {
-        this.count += 1;
-    }
+	increment() {
+		this.count += 1;
+	}
 
-    decrement() {
-        this.count -= 1;
-    }
+	decrement() {
+		this.count -= 1;
+	}
 }
