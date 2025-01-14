@@ -7,7 +7,11 @@ let store = new AppStore();
 export default observer(() => {
 	return (
 		<div className="flex min-h-screen flex-col">
-			<div className="flex gap-3 bg-gradient-to-b from-gray-300 to-gray-200 p-3 shadow-sm child:flex child:cursor-pointer child:items-center child:gap-2 child:rounded child:bg-white child:p-2 child:px-4 child:text-black child:shadow-md hover:child:opacity-80">
+			<div
+				className="flex gap-3 bg-gradient-to-b from-gray-300 to-gray-200 p-3 shadow-sm child:flex
+				child:cursor-pointer child:items-center child:gap-2 child:rounded child:bg-white child:p-2 child:px-4
+				child:text-black child:shadow-md hover:child:opacity-80 "
+			>
 				<div>
 					<i className="fa fa-file-lines"></i>
 					Prompts

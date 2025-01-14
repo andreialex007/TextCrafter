@@ -4,6 +4,7 @@ export default {
 	singleQuote: true,
 	bracketSpacing: true,
 	jsxBracketSameLine: false,
+	tailwindPreserveWhitespace: true,
 	printWidth: 90,
 	tabWidth: 2,
 	useTabs: true,
