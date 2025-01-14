@@ -8,11 +8,11 @@ export default observer(() => {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<div
-				className="flex gap-3 bg-gradient-to-b from-gray-300 to-gray-200 p-3 shadow-sm child:flex
+				className="flex gap-3 bg-gray-200 p-3 shadow-sm child:flex
 				child:cursor-pointer child:items-center child:gap-2 child:rounded child:bg-white child:p-2 child:px-4
 				child:text-black child:shadow-md hover:child:opacity-80 "
 			>
-				<div>
+				<div className="cursor-default bg-orange-600 text-white hover:opacity-100">
 					<i className="fa fa-file-lines"></i>
 					Prompts
 				</div>
@@ -25,9 +25,9 @@ export default observer(() => {
 					Settings
 				</div>
 				<div className="flex-grow cursor-default bg-transparent shadow-none"></div>
-				<div>
-					<i className="fa fa-person-running"></i>
-					Logout
+				<div className="bg-slate-500 text-white">
+					Exit
+					<i className="fa fa-location-arrow"></i>
 				</div>
 			</div>
 			<div className="p-5">Main content</div>
