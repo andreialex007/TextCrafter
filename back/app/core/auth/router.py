@@ -23,7 +23,6 @@ async def login(
     access_token = AuthUtils.create_access_token(data={"name": user.username, id: user.id})
     return {"access_token": access_token, "token_type": "bearer"}
 
-
 @router.get("/user")
 async def current_user(
         token: str = Depends(oauth2_scheme),
