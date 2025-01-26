@@ -15,7 +15,7 @@ export default observer(() => {
   <Router>
    <div className="flex min-h-screen flex-col">
     {activePage && (
-     <div className="inner-shadow flex flex-row bg-gray-100 shadow-md child:flex child:p-5">
+     <div className="inner-shadow flex flex-row bg-gray-100 shadow-md child:flex child:p-4">
       {store.navItems.map((item) => (
        <div
         key={item.url}

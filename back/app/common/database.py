@@ -52,6 +52,7 @@ class Prompt(Base):
     __tablename__ = "prompts"
 
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
     content = Column(Text, nullable=False)
