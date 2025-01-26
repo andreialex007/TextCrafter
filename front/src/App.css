@@ -11,7 +11,7 @@
 }
 
 .basic-btn {
-    @apply cursor-pointer hover:opacity-80 select-none;
+    @apply cursor-pointer  hover:opacity-80 select-none px-2 w-fit rounded;
 }
 
 .basic-page {
