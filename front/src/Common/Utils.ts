@@ -4,9 +4,7 @@ export function setLocalItem<T>(key: string, obj: T) {
 
 export function getLocalItem<T>(key: string): T | null {
 	let item = (window as any).localStorage.getItem(key);
-	if (!item) {
-		return null;
-	}
+	if (!item) return null;
 	return JSON.parse(item) as T;
 }
 

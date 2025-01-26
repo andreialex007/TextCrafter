@@ -1,16 +1,9 @@
-import os.path
 from pathlib import Path
 
-from alembic import command
-from alembic.config import Config
 from sqlalchemy import String, Column, Integer, Boolean, ForeignKey, Text
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
-import asyncio
-from pathlib import Path
-
-from common.utils import current_folder
 
 DATABASE_URL = f"sqlite+aiosqlite:///{(Path(__file__).parent.parent / 'app.db').resolve()}"
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)

@@ -6,8 +6,8 @@ export default {
 	jsxBracketSameLine: false,
 	tailwindPreserveWhitespace: true,
 	printWidth: 90,
-	tabWidth: 2,
-	useTabs: true,
+	tabWidth: 1,
+	useTabs: false,
 	overrides: [
 		{
 			files: ['*.yml'],
