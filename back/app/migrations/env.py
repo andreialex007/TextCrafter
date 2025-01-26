@@ -1,9 +1,7 @@
 import asyncio
 import sys
-from pathlib import Path
 
-from alembic import context, command
-from alembic.config import Config
+from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -34,10 +32,10 @@ async def main():
     async with engine.begin() as conn:
         await conn.run_sync(do_run_migrations)
 
+
 if context.is_offline_mode():
     context.configure(url=DATABASE_URL, target_metadata=target_metadata)
     with context.begin_transaction():
         context.run_migrations()
 else:
     asyncio.run(main())
-

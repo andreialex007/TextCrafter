@@ -1,13 +1,14 @@
 import asyncio
-from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
-import asyncio
 
-from common.database import AsyncSessionLocal, get_db
+from common.database import AsyncSessionLocal
 from core.auth import router as auth_router
+from core.settings import router as settings_router
 from core.users import router as users_router
+from core.categories import router as categories_router
+from core.prompts import router as prompts_router
 from core.users.user_dto import CreateUserDto
 from core.users.user_service import UserService
 from migrations.run import run_app_migrations
@@ -30,6 +31,9 @@ app = FastAPI()
 
 app.include_router(users_router.router)
 app.include_router(auth_router.router)
+app.include_router(categories_router.router)
+app.include_router(prompts_router.router)
+app.include_router(settings_router.router)
 
 
 @app.get("/")

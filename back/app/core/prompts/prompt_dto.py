@@ -1,7 +1,6 @@
 from typing import Optional
 
 from common.models.dto_base import DtoBase
-from core.categories.category_dto import CategoryDto
 
 
 class PromptDto(DtoBase):
@@ -26,4 +25,9 @@ class UpdatePromptDto(DtoBase):
 
 class PromptInListDto(DtoBase):
     content: str
-    category: CategoryDto
+
+    # Access CategoryDto lazily
+    @property
+    def category(self):
+        from core.categories.category_dto import CategoryDto  # Lazy import
+        return CategoryDto
