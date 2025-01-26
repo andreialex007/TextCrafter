@@ -53,7 +53,7 @@ export default class Store extends NavItem {
     {
      id: 3,
      name: 'second prompt',
-     content: 'second prompt content',
+     content: 'second prompt content inner',
     },
     {
      id: 4,
