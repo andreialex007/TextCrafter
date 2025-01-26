@@ -3,5 +3,5 @@ import { observer } from 'mobx-react-lite';
 import Store from './Store';
 
 export default observer(({ store }: { store: Store }) => {
- return <div className="basic-page full flex flex-col">List of items</div>;
+ return <div className="basic-page full flex flex-col">List of prompts</div>;
 });

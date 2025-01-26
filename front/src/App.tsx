@@ -2,7 +2,6 @@ import './App.css';
 import { observer } from 'mobx-react-lite';
 import AppStore, { allPages } from './AppStore';
 import { Route, Router, Switch, useLocation } from 'wouter';
-import Login from './Pages/Login';
 import React from 'react';
 import Page404 from './Common/Page404.tsx';
 
@@ -32,13 +31,6 @@ export default observer(() => {
        </div>
       ))}
       <div className="flex-grow"></div>
-      <div
-       onClick={() => setLocation('/login')}
-       className="flex cursor-pointer items-center gap-1 p-4 px-6 hover:bg-gray-200"
-      >
-       Logout
-       <i className="ri-arrow-right-up-box-fill"></i>
-      </div>
      </div>
     )}
     <Switch>
@@ -47,9 +39,6 @@ export default observer(() => {
        <x.component store={x.store}></x.component>
       </Route>
      ))}
-     <Route path="/login">
-      <Login />
-     </Route>
      <Route path="/:rest*">
       <Page404 />
      </Route>

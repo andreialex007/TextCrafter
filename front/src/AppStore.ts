@@ -2,7 +2,8 @@ import { action, computed, makeAutoObservable } from 'mobx';
 
 import AboutStore from './Pages/About/Store';
 import HomeStore from './Pages/Home/Store';
-import ItemsStore from './Pages/Items/Store';
+import PromptsStore from './Pages/Prompts/Store';
+import UsersStore from './Pages/Users/Store';
 import NavItem from './Common/NavItem.ts';
 
 const components = import.meta.glob('./Pages/*/index.tsx', { eager: true });
@@ -22,10 +23,11 @@ export const allPages = Object.entries(components)
 
 export default class AppStore {
  aboutStore = new AboutStore();
- itemsStore = new ItemsStore();
+ promptsStore = new PromptsStore();
  homeStore = new HomeStore();
+ usersStore = new UsersStore();
 
- navItems = [this.homeStore, this.itemsStore, this.aboutStore];
+ navItems = [this.homeStore, this.promptsStore, this.usersStore, this.aboutStore];
 
  constructor() {
   makeAutoObservable(this);

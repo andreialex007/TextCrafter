@@ -15,7 +15,7 @@ export default class Store extends NavItem {
   makeObservable(this);
  }
 
- name = 'Items';
- icon = 'checkbox-multiple-blank-fill';
- url = '/items';
+ name = 'Users';
+ icon = 'group-fill';
+ url = '/users';
 }

@@ -29,7 +29,6 @@ class UserService(ServiceBase):
     async def get_users_by_role(self, role: str) -> List[UserDto]:
         result = (await self.db.execute(select(User).filter(User.role == role)))
         users = (seq(result.scalars().all())
-                 .map(lambda x: cast(User, x))
                  .map(lambda user: UserDto(id=user.id, name=user.name, role=user.role))
                  .to_list())
         return users
