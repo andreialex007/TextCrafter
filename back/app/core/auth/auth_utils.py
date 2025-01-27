@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from datetime import datetime, timezone, timedelta
 from jose import jwt
 
 SECRET_KEY = "testKey"
@@ -11,7 +10,7 @@ class AuthUtils:
     @staticmethod
     def create_access_token(data: dict):
         to_encode = data.copy()
-        expire = datetime.now(datetime.UTC) + datetime.timedelta(minutes=EXPIRE_MINS)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=EXPIRE_MINS)
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt

@@ -1,10 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer, HTTPBearer, \
-    HTTPAuthorizationCredentials
-from jose import JWTError
+from fastapi import APIRouter, Depends, HTTPException, status, Response
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
-
-from core.auth.auth_utils import AuthUtils
+from core.auth.auth_utils import AuthUtils, EXPIRE_MINS
 from core.users.user_service import UserService, get_user_service
 
 router = APIRouter(
@@ -23,13 +20,29 @@ class LoginRequest(BaseModel):
 @router.post("/token")
 async def login(
         login_data: LoginRequest,
+        response: Response,
         user_service: UserService = Depends(get_user_service)
 ):
     user = await user_service.login(login_data.username, login_data.password)
     if not user:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED)
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password"
+        )
+
     access_token = AuthUtils.create_access_token(
-        data={"name": user.username, id: user.id})
+        data={"name": user.name, "id": user.id}
+    )
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=True,
+        samesite="lax",
+        max_age=EXPIRE_MINS * 60
+    )
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 
