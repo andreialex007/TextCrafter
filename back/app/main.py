@@ -5,6 +5,10 @@ from fastapi import FastAPI
 
 from common.database import AsyncSessionLocal
 from core.auth import router as auth_router
+from core.categories.category_dto import CreateCategoryDto
+from core.categories.category_service import CategoryService
+from core.prompts.prompt_dto import CreatePromptDto
+from core.prompts.prompt_service import PromptService
 from core.settings import router as settings_router
 from core.users import router as users_router
 from core.categories import router as categories_router
@@ -17,13 +21,27 @@ from migrations.run import run_app_migrations
 async def before_run():
     run_app_migrations()
     async with AsyncSessionLocal() as db:
-        service = UserService(db)
-        admins = await service.get_users_by_role("admin")
+        user_service = UserService(db)
+        category_service = CategoryService(db)
+        prompt_service = PromptService(db)
+        admins = await user_service.get_users_by_role("admin")
         if len(admins) == 0:
-            dto = CreateUserDto(name="admin", email="admin@admin.com", role="admin",
-                                password="1")
-            await service.add_user(dto)
-        admins = await service.get_users_by_role("admin")
+            user_dto = CreateUserDto(name="admin", email="admin@admin.com", role="admin",
+                                     password="1")
+            user_dto = await user_service.add_user(user_dto)
+        admins = await user_service.get_users_by_role("admin")
+        if len((await category_service.get_all_categories())) == 0:
+            new_category = await category_service.add_category(CreateCategoryDto(
+                name="category1", description="description1"
+            ))
+            await prompt_service.add_prompt(
+                CreatePromptDto(
+                    name="first prompt",
+                    user_id=admins[0].id,
+                    content="content1",
+                    category_id=new_category.id
+                ))
+
         first_admin = admins[0]
 
 
