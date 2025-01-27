@@ -1,9 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
+from core.auth.router import security
 from core.prompts.prompt_dto import PromptDto, CreatePromptDto, UpdatePromptDto
 from core.prompts.prompt_service import get_prompt_service, PromptService
 
-router = APIRouter(prefix="/prompts", tags=["prompts"])
+router = APIRouter(
+    prefix="/prompts",
+    tags=["prompts"],
+    dependencies=[Depends(security)])
 
 
 @router.post("/", response_model=PromptDto, status_code=status.HTTP_201_CREATED)

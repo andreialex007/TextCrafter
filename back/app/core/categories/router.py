@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status
 
+from core.auth.router import security
 from core.categories.category_dto import (
     CategoryWithPromptsDto,
     CreateCategoryDto,
@@ -9,7 +10,10 @@ from core.categories.category_dto import (
 )
 from core.categories.category_service import get_category_service, CategoryService
 
-router = APIRouter(prefix="/categories", tags=["categories"])
+router = APIRouter(
+    prefix="/categories",
+    tags=["categories"],
+    dependencies=[Depends(security)])
 
 
 @router.get("/", response_model=List[CategoryWithPromptsDto])

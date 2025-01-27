@@ -2,10 +2,13 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
+from core.auth.router import security
 from core.settings.setting_dto import SettingDto, CreateSettingDto, UpdateSettingDto
 from core.settings.setting_service import get_setting_service, SettingService
 
-router = APIRouter(prefix="/settings", tags=["settings"])
+router = APIRouter(prefix="/settings",
+                   tags=["settings"],
+                   dependencies=[Depends(security)])
 
 
 @router.get("/{setting_id}", response_model=SettingDto)
