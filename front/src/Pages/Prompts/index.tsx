@@ -77,7 +77,10 @@ export default observer(({ store }: { store: Store }) => {
              {highlightSearchTerm(p.content, store.searchTerm)}
             </span>
             <div className="invisible absolute right-0 top-0 flex flex-row gap-1 group-hover:visible">
-             <span className="basic-btn flex gap-1 bg-blue-700 text-white">
+             <span
+              onClick={() => store.editPrompt(p)}
+              className="basic-btn flex gap-1 bg-blue-700 text-white"
+             >
               <i className="ri-edit-fill"></i> edit
              </span>
              <span className="basic-btn flex-gap-1 bg-red-700 text-white">
@@ -97,8 +100,6 @@ export default observer(({ store }: { store: Store }) => {
       )}
      </div>
     </div>
-   </Route>
-   <Route path="/:id">
     <Edit store={store.edit} />
    </Route>
    <Route>

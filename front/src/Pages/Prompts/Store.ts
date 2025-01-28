@@ -3,14 +3,14 @@ import NavItem from '../../Common/NavItem.ts';
 import ItemEditStore from './Edit/Store.ts';
 import axios from 'axios';
 
-type Category = {
+export type Category = {
  id: number;
  name: string;
  description?: string;
  prompts: Prompt[];
 };
 
-type Prompt = {
+export type Prompt = {
  id: number;
  name: string;
  categoryId?: number;
@@ -28,42 +28,7 @@ export default class Store extends NavItem {
  searchTerm = '';
 
  @observable
- categories: Array<Category> = [
-  {
-   id: 5,
-   name: 'first item',
-   description: 'first item description',
-   prompts: [
-    {
-     id: 1,
-     name: 'first prompt',
-     content: 'first prompt content',
-    },
-    {
-     id: 2,
-     name: 'first prompt',
-     content: 'first prompt content',
-    },
-   ],
-  },
-  {
-   id: 6,
-   name: 'second item',
-   description: 'second item description',
-   prompts: [
-    {
-     id: 3,
-     name: 'second prompt',
-     content: 'second prompt content inner',
-    },
-    {
-     id: 4,
-     name: 'second prompt',
-     content: 'third prompt content',
-    },
-   ],
-  },
- ];
+ categories: Array<Category> = [];
 
  constructor() {
   super();
@@ -73,6 +38,11 @@ export default class Store extends NavItem {
  name = 'Prompts';
  icon = 'discuss-fill';
  url = '/prompts';
+
+ editPrompt = (item: Prompt) => {
+  this.edit.prompt = { ...item };
+  this.edit.openModal();
+ };
 
  get filteredCategories() {
   return this.filterCategories(this.categories);
