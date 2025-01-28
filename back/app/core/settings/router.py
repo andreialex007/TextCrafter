@@ -38,7 +38,7 @@ async def create_setting(
         setting_data: CreateSettingDto,
         setting_service: SettingService = Depends(get_setting_service),
 ):
-    return await setting_service.add_setting(setting_data)
+    return await setting_service.add(setting_data)
 
 
 @router.put("/{setting_id}", response_model=SettingDto)
@@ -47,7 +47,7 @@ async def update_setting(
         setting_data: UpdateSettingDto,
         setting_service: SettingService = Depends(get_setting_service),
 ):
-    return await setting_service.update_setting(setting_id, setting_data)
+    return await setting_service.update(setting_id, setting_data)
 
 
 @router.delete("/{setting_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -55,4 +55,4 @@ async def delete_setting(
         setting_id: int,
         setting_service: SettingService = Depends(get_setting_service),
 ):
-    await setting_service.delete_setting(setting_id)
+    await setting_service.delete(setting_id)
