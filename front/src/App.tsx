@@ -4,6 +4,7 @@ import AppStore, { allPages } from './AppStore';
 import { Route, Router, Switch, useLocation } from 'wouter';
 import React from 'react';
 import Page404 from './Common/Page404.tsx';
+import Login from '@/Pages/Login';
 
 let store = new AppStore();
 
@@ -21,8 +22,7 @@ export default observer(() => {
         key={item.url}
         onClick={(x) => setLocation(item.url)}
         className={
-         'item-4 flex cursor-pointer items-center gap-1 px-6 hover:bg-gray-200' +
-         ' ' +
+         'item-4 flex cursor-pointer items-center gap-1 px-6 hover:bg-gray-200 ' +
          (item.isActive(location) ? 'active-item' : '')
         }
        >
@@ -39,6 +39,9 @@ export default observer(() => {
        <x.component store={x.store}></x.component>
       </Route>
      ))}
+     <Route path="/login">
+      <Login />
+     </Route>
      <Route path="/:rest*">
       <Page404 />
      </Route>

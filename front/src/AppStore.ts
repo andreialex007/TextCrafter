@@ -13,7 +13,8 @@ export const allPages = Object.entries(components)
  .filter((x) => !x[0].includes('Login'))
  .map((component, index) => {
   let elem = component as any;
-  let storeFunc = (Object.values(compStores) as any)[index].default;
+  let storeFunc = (compStores as any)[component[0].replace('index.tsx', 'Store.ts')]
+   .default;
   return {
    component: elem[1].default,
    store: new storeFunc() as NavItem,
