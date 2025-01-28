@@ -43,7 +43,13 @@ async def login(
         max_age=EXPIRE_MINS * 60
     )
 
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"token": access_token, "type": "bearer"}
+
+
+@router.post("/logout")
+async def logout(response: Response):
+    response.delete_cookie(key="access_token")
+    return {"detail": "Successfully logged out"}
 
 
 @router.get("/user")

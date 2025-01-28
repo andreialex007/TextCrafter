@@ -2,15 +2,21 @@ import './App.css';
 import { observer } from 'mobx-react-lite';
 import AppStore, { allPages } from './AppStore';
 import { Route, Router, Switch, useLocation } from 'wouter';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Page404 from './Common/Page404.tsx';
 import Login from '@/Pages/Login';
+import AuthStore from '@/Common/AuthStore.ts';
 
 let store = new AppStore();
 
 export default observer(() => {
  let [location, setLocation] = useLocation();
  let activePage = store.getActivePage(location);
+
+ if (!AuthStore.isAuthenticated && location !== '/login') {
+  setLocation('/login');
+  return null;
+ }
 
  return (
   <Router>
@@ -31,6 +37,13 @@ export default observer(() => {
        </div>
       ))}
       <div className="flex-grow"></div>
+      <div
+       onClick={() => AuthStore.logout()}
+       className="flex cursor-pointer items-center gap-1 p-4 px-6 hover:bg-gray-200"
+      >
+       Logout
+       <i className="ri-arrow-right-up-box-fill"></i>
+      </div>
      </div>
     )}
     <Switch>

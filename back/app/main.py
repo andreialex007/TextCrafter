@@ -2,6 +2,7 @@ import asyncio
 
 import uvicorn
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from common.database import AsyncSessionLocal
 from core.auth import router as auth_router
@@ -46,6 +47,15 @@ async def before_run():
 
 
 app = FastAPI()
+
+# Add the CORSMiddleware to the application
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(users_router.router)
 app.include_router(auth_router.router)

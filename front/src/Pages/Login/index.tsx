@@ -42,8 +42,8 @@ export default observer(() => {
      />
     </div>
     <span
-     onClick={() => setLocation('/')}
-     className="basic-btn mt-3 rounded-md bg-slate-500 p-2 text-center text-white"
+     onClick={() => LoginStore.handleLogin((path) => setLocation('/'))}
+     className="basic-btn mt-3 min-w-full rounded-md bg-slate-500 p-2 text-center text-white"
     >
      <i className="ri-login-box-fill"></i>
      Login

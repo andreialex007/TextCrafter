@@ -19,7 +19,7 @@ class LoginStore {
  }
 
  async handleLogin(navigate: (path: string) => void) {
-  const response = await axios.post(
+  const response = await axios.post<{ token: string }>(
    '/auth/token',
    {
     username: this.username,
@@ -29,16 +29,7 @@ class LoginStore {
     withCredentials: true,
    },
   );
-  const setCookieHeader = response.headers['set-cookie'];
-
-  if (setCookieHeader) {
-   AuthStore.login();
-   console.log('Token stored in HTTP-only cookies:', setCookieHeader);
-   return;
-  }
-  console.log(
-   'No Set-Cookie header in response. Is the API configured to set the HTTP-only token cookie?',
-  );
+  AuthStore.login(response.data.token);
  }
 }
 

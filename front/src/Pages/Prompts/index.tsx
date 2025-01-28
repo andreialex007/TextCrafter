@@ -23,9 +23,6 @@ const highlightSearchTerm = (text: string, searchTerm: string) => {
 };
 
 export default observer(({ store }: { store: Store }) => {
- const hasSearchTerm = store.searchTerm.trim() !== '';
- const hasFilteredCategories = store.filteredCategories.length > 0;
-
  return (
   <Switch>
    <Route path="/">
@@ -45,7 +42,7 @@ export default observer(({ store }: { store: Store }) => {
        <i className="ri-add-box-fill"></i>
        Add new category
       </div>
-      {hasFilteredCategories ? (
+      {store.filteredCategories.length > 0 ? (
        store.filteredCategories.map((c) => (
         <div key={c.id} className="group/main flex flex-col">
          <div className="relative flex gap-3">
@@ -88,7 +85,7 @@ export default observer(({ store }: { store: Store }) => {
          </div>
         </div>
        ))
-      ) : hasSearchTerm ? (
+      ) : store.searchTerm.trim() !== '' ? (
        <div className="text-center text-gray-500">No items were found</div>
       ) : (
        <div className="text-center text-gray-500">No items</div>

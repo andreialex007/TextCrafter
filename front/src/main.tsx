@@ -2,29 +2,12 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
-import { Link, Route } from 'wouter';
+import { getLocalItem, initAxios } from '@/Common/Utils.ts';
+import axios from 'axios';
+import AuthStore from '@/Common/AuthStore.ts';
 
-function Home() {
- return <h1>Home</h1>;
-}
-
-function About() {
- return <h1>About</h1>;
-}
-
-export default function AppV2() {
- return (
-  <div>
-   <nav>
-    <Link href="/">Home</Link>
-    <Link href="/about">About</Link>
-   </nav>
-   <Route path="/" component={Home} />
-   <Route path="/about" component={About} />
-   <Route path="/:rest*">404</Route>
-  </div>
- );
-}
+initAxios('http://127.0.0.1:8055');
+AuthStore.refreshAxios();
 
 createRoot(document.getElementById('root')!).render(
  <StrictMode>

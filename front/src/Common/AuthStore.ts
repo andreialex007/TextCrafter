@@ -1,17 +1,35 @@
 import { makeAutoObservable } from 'mobx';
-import axios from 'axios';
 import { getLocalItem, setLocalItem } from './Utils';
+import axios from 'axios';
 
 class AuthStore {
- isAuthenticated = false;
-
- login() {
-  this.isAuthenticated = true;
+ get isAuthenticated() {
+  return !!getLocalItem<string>('token');
  }
 
- logout() {
-  this.isAuthenticated = false;
+ login(token: string) {
+  setLocalItem<string>('token', token);
+  location.href = '/';
  }
+
+ async logout() {
+  await axios.post(
+   `/auth/logout`,
+   {},
+   {
+    withCredentials: true,
+   },
+  );
+  setLocalItem<string>('token', '');
+  this.refreshAxios();
+  location.href = '/login';
+ }
+
+ refreshAxios = () => {
+  axios.defaults.headers.common.Authorization =
+   this.isAuthenticated === null ? null : `Bearer ${getLocalItem<string>('token')}`;
+ };
+
  constructor() {
   makeAutoObservable(this);
  }
