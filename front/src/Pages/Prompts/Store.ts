@@ -33,6 +33,7 @@ export default class Store extends NavItem {
  constructor() {
   super();
   makeObservable(this);
+  this.edit.onSave = this.onPromptSave;
  }
 
  name = 'Prompts';
@@ -41,7 +42,23 @@ export default class Store extends NavItem {
 
  editPrompt = (item: Prompt) => {
   this.edit.prompt = { ...item };
-  this.edit.openModal();
+  this.edit.show();
+ };
+
+ addPrompt = (categoryId: number) => {
+  this.edit.prompt = { categoryId: categoryId } as any;
+  this.edit.show();
+ };
+
+ onPromptSave = () => {
+  let newItem = this.edit.prompt;
+  let prompts = this.categories.find((x) => x.id == newItem.categoryId)!.prompts;
+  let current = prompts.find((x) => x.id == newItem.id)!;
+  if (current) {
+   Object.assign(current, newItem);
+  } else {
+   prompts.push(newItem);
+  }
  };
 
  get filteredCategories() {

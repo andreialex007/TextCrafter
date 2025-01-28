@@ -1,8 +1,11 @@
 import asyncio
+import traceback
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError, HTTPException
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import JSONResponse
 
 from common.database import AsyncSessionLocal
 from core.auth import router as auth_router
@@ -48,7 +51,44 @@ async def before_run():
 
 app = FastAPI()
 
-# Add the CORSMiddleware to the application
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    # Log exception details
+    print(f"Unhandled exception occurred for URL {request.url}:")
+    print(traceback.format_exc())  # Logs the full exception traceback
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "An unexpected error occurred. Please contact support.",
+            "exception_type": type(exc).__name__,
+            # Type of exception (e.g., KeyError, ValueError)
+            "error_message": str(exc),  # The string representation of the error
+            "request": {
+                "url": str(request.url),
+                "method": request.method,
+            },
+        },
+    )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    print("Validation Error Occurred:")
+    print(traceback.format_exc())
+
+    return JSONResponse(
+        status_code=422,
+        content={
+            "detail": exc.errors(),
+            "body": exc.body,
+            "url": str(request.url),
+            "method": request.method
+        },
+    )
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],

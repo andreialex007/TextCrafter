@@ -19,3 +19,9 @@ class AuthUtils:
     def decode(token: str):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
+
+
+def get_current_user_id(token: str):
+    payload = AuthUtils.decode(token)
+    id: str = payload.get("id")
+    return id

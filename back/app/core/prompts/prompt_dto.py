@@ -12,8 +12,7 @@ class PromptDto(DtoBase):
 
 class CreatePromptDto(DtoBase):
     name: str
-    user_id: int
-    category_id: Optional[int]
+    category_id: int
     content: str
 
 

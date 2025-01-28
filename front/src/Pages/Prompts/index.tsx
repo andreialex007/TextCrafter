@@ -55,7 +55,10 @@ export default observer(({ store }: { store: Store }) => {
            {highlightSearchTerm(c.name, store.searchTerm)}
           </div>
           <div className="flex- invisible float-end flex gap-1 group-hover/main:visible">
-           <span className="basic-btn flex gap-1 bg-green-700 text-white">
+           <span
+            onClick={() => store.addPrompt(c.id)}
+            className="basic-btn flex gap-1 bg-green-700 text-white"
+           >
             <i className="ri-add-box-fill"></i> add
            </span>
            <span className="basic-btn flex gap-1 bg-blue-700 text-white">

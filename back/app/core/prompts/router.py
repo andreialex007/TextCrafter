@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials
 
+from core.auth.auth_utils import get_current_user_id
 from core.auth.router import security
 from core.prompts.prompt_dto import PromptDto, CreatePromptDto, UpdatePromptDto
 from core.prompts.prompt_service import get_prompt_service, PromptService
@@ -14,8 +16,10 @@ router = APIRouter(
 async def create_prompt(
         prompt_data: CreatePromptDto,
         prompt_service: PromptService = Depends(get_prompt_service),
+        credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
-    return await prompt_service.add_prompt(prompt_data)
+    return await prompt_service.add_prompt(prompt_data,
+                                           get_current_user_id(credentials.credentials))
 
 
 @router.put("/{prompt_id}", response_model=PromptDto)

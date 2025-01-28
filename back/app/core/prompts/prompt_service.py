@@ -68,10 +68,10 @@ class PromptService(ServiceBase):
             for prompt in prompts
         ]
 
-    async def add_prompt(self, prompt_data: CreatePromptDto) -> PromptDto:
+    async def add_prompt(self, prompt_data: CreatePromptDto, user_id: int) -> PromptDto:
         new_prompt = Prompt(
             name=prompt_data.name,
-            user_id=prompt_data.user_id,
+            user_id=user_id,
             category_id=prompt_data.category_id,
             content=prompt_data.content,
         )
