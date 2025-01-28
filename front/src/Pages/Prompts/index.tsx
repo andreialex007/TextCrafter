@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { Route, Switch } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
+import store from '@/Pages/Login/Store.ts';
 
 const highlightSearchTerm = (text: string, searchTerm: string) => {
  if (!searchTerm) return text;
@@ -23,6 +24,10 @@ const highlightSearchTerm = (text: string, searchTerm: string) => {
 };
 
 export default observer(({ store }: { store: Store }) => {
+ useEffect(() => {
+  store.load();
+ }, []);
+
  return (
   <Switch>
    <Route path="/">

@@ -1,6 +1,7 @@
 import { makeAutoObservable, makeObservable, observable } from 'mobx';
 import NavItem from '../../Common/NavItem.ts';
 import ItemEditStore from './Edit/Store.ts';
+import axios from 'axios';
 
 type Category = {
  id: number;
@@ -76,6 +77,11 @@ export default class Store extends NavItem {
  get filteredCategories() {
   return this.filterCategories(this.categories);
  }
+
+ load = async () => {
+  let resp = await axios.get<Array<Category>>('/categories/');
+  this.categories = resp.data;
+ };
 
  filterCategories = (categories: Array<Category>) => {
   return categories.filter(
