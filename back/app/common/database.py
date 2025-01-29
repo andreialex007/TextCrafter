@@ -36,6 +36,8 @@ class User(Base):
     settings = relationship("Setting", back_populates="user",
                             cascade="all, delete-orphan")
     prompts = relationship("Prompt", back_populates="user", cascade="all, delete-orphan")
+    categories = relationship("Category", back_populates="category",
+                              cascade="all, delete-orphan")
 
 
 class Setting(Base):
@@ -66,6 +68,7 @@ class Category(Base):
     __tablename__ = "categories"
 
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String, unique=True, nullable=False)
     description = Column(Text, nullable=True)
 
