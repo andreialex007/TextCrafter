@@ -34,7 +34,7 @@ async def before_run():
                                      password="1")
             user_dto = await user_service.add_user(user_dto)
         admins = await user_service.get_users_by_role("admin")
-        if len((await category_service.get_all_categories())) == 0:
+        if len((await category_service.get_all())) == 0:
             new_category = await category_service.add_category(CreateCategoryDto(
                 name="category1", description="description1"
             ))

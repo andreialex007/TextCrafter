@@ -1,9 +1,11 @@
-from typing import List, Optional
+from typing import List
+
 from fastapi import Depends
 from functional import seq
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from common.database import get_db, Setting, User
+
+from common.database import get_db, Setting
 from common.models.service_base import ServiceBase
 from core.settings.setting_dto import SettingDto, CreateSettingDto, UpdateSettingDto
 from core.settings.settings_mapper import SettingMapper

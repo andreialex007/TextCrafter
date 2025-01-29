@@ -20,7 +20,7 @@ router = APIRouter(
 async def get_all_categories(
         category_service: CategoryService = Depends(get_category_service),
 ):
-    return await category_service.get_all_categories()
+    return await category_service.get_all()
 
 
 @router.post("/", response_model=CategoryWithPromptsDto,

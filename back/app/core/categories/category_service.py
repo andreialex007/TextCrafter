@@ -1,11 +1,14 @@
-from typing import List, Optional
+from typing import List
+
 from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
-from common.database import get_db, Category, Prompt
+
+from common.database import get_db, Category
 from common.models.service_base import ServiceBase
 from core.categories.category_dto import CategoryDto, CreateCategoryDto, \
     UpdateCategoryDto, CategoryWithPromptsDto
+from core.categories.category_mapper import CategoryMapper
 from core.prompts.prompt_dto import PromptDto
 
 
@@ -19,24 +22,16 @@ class CategoryService(ServiceBase):
             (await self.db.execute(select(Category).filter(Category.id == id)))
             .scalar_one()
         )
-        return CategoryDto(
-            id=category.id,
-            name=category.name,
-            description=category.description,
-        )
+        return CategoryMapper.to_category_dto(category)
 
     async def get_by_name(self, name: str) -> CategoryDto:
         category = (
             (await self.db.execute(select(Category).filter(Category.name == name)))
             .scalar_one()
         )
-        return CategoryDto(
-            id=category.id,
-            name=category.name,
-            description=category.description,
-        )
+        return CategoryMapper.to_category_dto(category)
 
-    async def get_all_categories(self) -> List[CategoryWithPromptsDto]:
+    async def get_all(self) -> List[CategoryWithPromptsDto]:
         result = await self.db.execute(
             select(Category)
             .options(joinedload(Category.prompts))
@@ -69,11 +64,7 @@ class CategoryService(ServiceBase):
         self.db.add(new_category)
         await self.db.commit()
         await self.db.refresh(new_category)
-        return CategoryDto(
-            id=new_category.id,
-            name=new_category.name,
-            description=new_category.description,
-        )
+        return CategoryMapper.to_category_dto(new_category)
 
     async def update_category(
             self, id: int, category_data: UpdateCategoryDto
@@ -86,11 +77,7 @@ class CategoryService(ServiceBase):
         category.description = category_data.description
         await self.db.commit()
         await self.db.refresh(category)
-        return CategoryDto(
-            id=category.id,
-            name=category.name,
-            description=category.description,
-        )
+        return CategoryMapper.to_category_dto(category)
 
     async def delete_category(self, id: int) -> None:
         category = (

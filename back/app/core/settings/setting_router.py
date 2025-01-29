@@ -16,13 +16,7 @@ async def get_setting_by_id(
         setting_id: int,
         setting_service: SettingService = Depends(get_setting_service),
 ):
-    try:
-        return await setting_service.get_by_id(setting_id)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Setting with ID {setting_id} not found",
-        )
+    return await setting_service.get_by_id(setting_id)
 
 
 @router.get("/user/{user_id}", response_model=List[SettingDto])
