@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from core.auth.router import security
+from core.auth.security import security
 from core.users.user_dto import UserDto
 from core.users.user_service import UserService, get_user_service
 

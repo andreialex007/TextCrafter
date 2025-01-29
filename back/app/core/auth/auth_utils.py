@@ -1,5 +1,10 @@
 from datetime import datetime, timezone, timedelta
+
+from fastapi import Depends
+from fastapi.security import HTTPAuthorizationCredentials
 from jose import jwt
+
+from core.auth.security import security
 
 SECRET_KEY = "testKey"
 ALGORITHM = "HS256"
@@ -21,7 +26,8 @@ class AuthUtils:
         return payload
 
 
-def get_current_user_id(token: str):
+async def get_current_user_id(
+        credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
     payload = AuthUtils.decode(token)
-    id: str = payload.get("id")
-    return id
+    return int(payload.get("id"))

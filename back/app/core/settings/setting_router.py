@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from core.auth.router import security
+from core.auth.security import security
 from core.settings.setting_dto import SettingDto, CreateSettingDto, UpdateSettingDto
 from core.settings.setting_service import get_setting_service, SettingService
 

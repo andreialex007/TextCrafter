@@ -8,15 +8,15 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
 
 from common.database import AsyncSessionLocal
-from core.auth import router as auth_router
+from core.auth import auth_router as auth_router
 from core.categories.category_dto import CreateCategoryDto
 from core.categories.category_service import CategoryService
 from core.prompts.prompt_dto import CreatePromptDto
 from core.prompts.prompt_service import PromptService
-from core.settings import router as settings_router
-from core.users import router as users_router
-from core.categories import router as categories_router
-from core.prompts import router as prompts_router
+from core.settings import setting_router as settings_router
+from core.users import user_router as users_router
+from core.categories import category_router as categories_router
+from core.prompts import prompt_router as prompts_router
 from core.users.user_dto import CreateUserDto
 from core.users.user_service import UserService
 from migrations.run import run_app_migrations

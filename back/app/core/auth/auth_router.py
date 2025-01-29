@@ -2,14 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status, Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from core.auth.auth_utils import AuthUtils, EXPIRE_MINS
+from core.auth.security import security
 from core.users.user_service import UserService, get_user_service
 
 router = APIRouter(
     prefix="/auth",
     tags=["auth"]
 )
-
-security = HTTPBearer()
 
 
 class LoginRequest(BaseModel):

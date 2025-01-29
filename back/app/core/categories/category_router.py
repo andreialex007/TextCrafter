@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status
 
-from core.auth.router import security
+from core.auth.security import security
 from core.categories.category_dto import (
     CategoryWithPromptsDto,
     CreateCategoryDto,

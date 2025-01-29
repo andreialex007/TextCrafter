@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import HTTPAuthorizationCredentials
 
 from core.auth.auth_utils import get_current_user_id
-from core.auth.router import security
+from core.auth.security import security
 from core.prompts.prompt_dto import PromptDto, CreatePromptDto, UpdatePromptDto
 from core.prompts.prompt_service import get_prompt_service, PromptService
 
@@ -16,10 +15,9 @@ router = APIRouter(
 async def create_prompt(
         prompt_data: CreatePromptDto,
         prompt_service: PromptService = Depends(get_prompt_service),
-        credentials: HTTPAuthorizationCredentials = Depends(security),
+        user_id: str = Depends(get_current_user_id),
 ):
-    return await prompt_service.add_prompt(prompt_data,
-                                           get_current_user_id(credentials.credentials))
+    return await prompt_service.add_prompt(prompt_data, user_id)
 
 
 @router.put("/{prompt_id}", response_model=PromptDto)
@@ -27,14 +25,9 @@ async def update_prompt(
         prompt_id: int,
         prompt_data: UpdatePromptDto,
         prompt_service: PromptService = Depends(get_prompt_service),
+        user_id: int = Depends(get_current_user_id)
 ):
-    try:
-        return await prompt_service.update_prompt(prompt_id, prompt_data)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Prompt with ID {prompt_id} not found",
-        )
+    return await prompt_service.update_prompt(prompt_id, prompt_data, user_id)
 
 
 @router.delete("/{prompt_id}", status_code=status.HTTP_204_NO_CONTENT)
