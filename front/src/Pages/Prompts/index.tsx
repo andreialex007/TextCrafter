@@ -4,7 +4,7 @@ import Store from './Store';
 import { Route, Switch } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
-import store from '@/Pages/Login/Store.ts';
+import Confirmation from '@/Common/Confirmation';
 
 const highlightSearchTerm = (text: string, searchTerm: string) => {
  if (!searchTerm) return text;
@@ -86,7 +86,10 @@ export default observer(({ store }: { store: Store }) => {
              >
               <i className="ri-edit-fill"></i> edit
              </span>
-             <span className="basic-btn flex-gap-1 bg-red-700 text-white">
+             <span
+              onClick={() => store.deletePrompt(p.id, p.name, c.id)}
+              className="basic-btn flex-gap-1 bg-red-700 text-white"
+             >
               <i className="ri-delete-bin-fill"></i>
               del
              </span>
@@ -104,6 +107,7 @@ export default observer(({ store }: { store: Store }) => {
      </div>
     </div>
     <Edit store={store.edit} />
+    <Confirmation />
    </Route>
    <Route>
     <Page404 />

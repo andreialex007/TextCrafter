@@ -1,6 +1,7 @@
 import { makeAutoObservable, makeObservable, observable } from 'mobx';
 import NavItem from '../../Common/NavItem.ts';
 import ItemEditStore from './Edit/Store.ts';
+import dialogStore from '@/Common/Confirmation/Store.ts';
 import axios from 'axios';
 
 export type Category = {
@@ -64,6 +65,16 @@ export default class Store extends NavItem {
  get filteredCategories() {
   return this.filterCategories(this.categories);
  }
+
+ deletePrompt = async (promptId: number, name: string, categoryId: number) => {
+  const result = await dialogStore.confirm(
+   `Do you want to delete this item: #${promptId} "${name}"?`,
+  );
+  if (!result) return;
+  await axios.delete(`/prompts/${promptId}`);
+  const category = this.categories.find((c) => c.id === categoryId)!;
+  category.prompts = category.prompts.filter((p) => p.id !== promptId);
+ };
 
  load = async () => {
   let resp = await axios.get<Array<Category>>('/categories/');
