@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { Route, Switch } from 'wouter';
 import Page404 from '@/Common/Page404';
-import Edit from './Edit';
+import EditPrompt from './EditPrompt';
+import EditCategory from './EditCategory';
 import Confirmation from '@/Common/Confirmation';
 
 const highlightSearchTerm = (text: string, searchTerm: string) => {
@@ -43,9 +44,12 @@ export default observer(({ store }: { store: Store }) => {
        />
        <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"></i>
       </div>
-      <div className="basic-btn self-end bg-emerald-600 text-white ">
+      <div
+       onClick={() => store.addCategory()}
+       className="basic-btn self-end bg-emerald-600 text-white "
+      >
        <i className="ri-add-box-fill"></i>
-       Add new category
+       New category
       </div>
       {store.filteredCategories.length > 0 ? (
        store.filteredCategories.map((c) => (
@@ -61,10 +65,16 @@ export default observer(({ store }: { store: Store }) => {
            >
             <i className="ri-add-box-fill"></i> add
            </span>
-           <span className="basic-btn flex gap-1 bg-blue-700 text-white">
+           <span
+            onClick={() => store.editCategory(c)}
+            className="basic-btn flex gap-1 bg-blue-700 text-white"
+           >
             <i className="ri-edit-fill"></i> edit
            </span>
-           <span className="basic-btn flex-gap-1 bg-red-700 text-white">
+           <span
+            onClick={() => store.deleteCategory(c.id)}
+            className="basic-btn flex-gap-1 bg-red-700 text-white"
+           >
             <i className="ri-delete-bin-fill"></i>
             del
            </span>
@@ -106,7 +116,8 @@ export default observer(({ store }: { store: Store }) => {
       )}
      </div>
     </div>
-    <Edit store={store.edit} />
+    <EditPrompt store={store.editPromptModal} />
+    <EditCategory store={store.editCategoryModal} />
     <Confirmation />
    </Route>
    <Route>

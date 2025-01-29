@@ -56,25 +56,29 @@ class CategoryService(ServiceBase):
             for category in categories
         ]
 
-    async def add_category(self, category_data: CreateCategoryDto) -> CategoryDto:
+    async def add(self, category_data: CreateCategoryDto,
+                  user_id: int) -> CategoryDto:
         new_category = Category(
             name=category_data.name,
             description=category_data.description,
+            user_id=user_id
         )
         self.db.add(new_category)
         await self.db.commit()
         await self.db.refresh(new_category)
         return CategoryMapper.to_category_dto(new_category)
 
-    async def update_category(
-            self, id: int, category_data: UpdateCategoryDto
+    async def update(
+            self, category_data: UpdateCategoryDto, user_id: int
     ) -> CategoryDto:
         category = (
-            (await self.db.execute(select(Category).filter(Category.id == id)))
+            (await self.db.execute(
+                select(Category).filter(Category.id == category_data.id)))
             .scalar_one()
         )
         category.name = category_data.name
         category.description = category_data.description
+        category.user_id = user_id
         await self.db.commit()
         await self.db.refresh(category)
         return CategoryMapper.to_category_dto(category)

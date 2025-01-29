@@ -36,7 +36,7 @@ class User(Base):
     settings = relationship("Setting", back_populates="user",
                             cascade="all, delete-orphan")
     prompts = relationship("Prompt", back_populates="user", cascade="all, delete-orphan")
-    categories = relationship("Category", back_populates="category",
+    categories = relationship("Category", back_populates="user",
                               cascade="all, delete-orphan")
 
 
@@ -74,5 +74,6 @@ class Category(Base):
 
     prompts = relationship("Prompt", back_populates="category",
                            cascade="all, delete-orphan")
+    user = relationship("User", back_populates="categories")
 
 # asyncio.run(init_db())

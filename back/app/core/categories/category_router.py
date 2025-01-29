@@ -2,11 +2,12 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status
 
+from core.auth.auth_utils import get_current_user_id
 from core.auth.security import security
 from core.categories.category_dto import (
     CategoryWithPromptsDto,
     CreateCategoryDto,
-    UpdateCategoryDto,
+    UpdateCategoryDto, CategoryDto,
 )
 from core.categories.category_service import get_category_service, CategoryService
 
@@ -23,22 +24,24 @@ async def get_all_categories(
     return await category_service.get_all()
 
 
-@router.post("/", response_model=CategoryWithPromptsDto,
-             status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=CategoryDto, status_code=status.HTTP_201_CREATED)
 async def create_category(
         category_data: CreateCategoryDto,
         category_service: CategoryService = Depends(get_category_service),
+        user_id: int = Depends(get_current_user_id)
 ):
-    return await category_service.add_category(category_data)
+    return await category_service.add(category_data, user_id)
 
 
-@router.put("/{category_id}", response_model=CategoryWithPromptsDto)
+@router.put("/{category_id}", response_model=CategoryDto)
 async def update_category(
         category_id: int,
         category_data: UpdateCategoryDto,
         category_service: CategoryService = Depends(get_category_service),
+        user_id: int = Depends(get_current_user_id)
 ):
-    return await category_service.update_category(category_id, category_data)
+    category_data.id = category_id
+    return await category_service.update(category_data, user_id)
 
 
 @router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)

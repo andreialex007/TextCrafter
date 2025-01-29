@@ -1,6 +1,7 @@
 import { makeAutoObservable, makeObservable, observable } from 'mobx';
 import NavItem from '../../Common/NavItem.ts';
-import ItemEditStore from './Edit/Store.ts';
+import EditPromptStore from './EditPrompt/Store.ts';
+import EditCategoryStore from './EditCategory/Store.ts';
 import dialogStore from '@/Common/Confirmation/Store.ts';
 import axios from 'axios';
 
@@ -23,7 +24,10 @@ export default class Store extends NavItem {
  loading = false;
 
  @observable
- edit = new ItemEditStore();
+ editPromptModal = new EditPromptStore();
+
+ @observable
+ editCategoryModal = new EditCategoryStore();
 
  @observable
  searchTerm = '';
@@ -34,7 +38,8 @@ export default class Store extends NavItem {
  constructor() {
   super();
   makeObservable(this);
-  this.edit.onSave = this.onPromptSave;
+  this.editPromptModal.onSave = this.onPromptSave;
+  this.editCategoryModal.onSave = this.onCategorySave;
  }
 
  name = 'Prompts';
@@ -42,17 +47,17 @@ export default class Store extends NavItem {
  url = '/prompts';
 
  editPrompt = (item: Prompt) => {
-  this.edit.prompt = { ...item };
-  this.edit.show();
+  this.editPromptModal.prompt = { ...item };
+  this.editPromptModal.show();
  };
 
  addPrompt = (categoryId: number) => {
-  this.edit.prompt = { categoryId: categoryId } as any;
-  this.edit.show();
+  this.editPromptModal.prompt = { categoryId: categoryId } as any;
+  this.editPromptModal.show();
  };
 
  onPromptSave = () => {
-  let newItem = this.edit.prompt;
+  let newItem = this.editPromptModal.prompt;
   let prompts = this.categories.find((x) => x.id == newItem.categoryId)!.prompts;
   let current = prompts.find((x) => x.id == newItem.id)!;
   if (current) {
@@ -62,9 +67,18 @@ export default class Store extends NavItem {
   }
  };
 
- get filteredCategories() {
-  return this.filterCategories(this.categories);
- }
+ onCategorySave = () => {
+  let newItem = this.editCategoryModal.category;
+  let current = this.categories.find((x) => x.id == newItem.id);
+  if (current) {
+   current.name = newItem.name;
+  } else {
+   this.categories.push({
+    ...newItem,
+    prompts: [],
+   });
+  }
+ };
 
  deletePrompt = async (promptId: number, name: string, categoryId: number) => {
   const result = await dialogStore.confirm(
@@ -75,6 +89,30 @@ export default class Store extends NavItem {
   const category = this.categories.find((c) => c.id === categoryId)!;
   category.prompts = category.prompts.filter((p) => p.id !== promptId);
  };
+
+ addCategory = async () => {
+  this.editCategoryModal.category = {} as any;
+  this.editCategoryModal.show();
+ };
+
+ editCategory = async (category: Category) => {
+  this.editCategoryModal.category = { ...category };
+  this.editCategoryModal.show();
+ };
+
+ deleteCategory = async (categoryId: number) => {
+  const result = await dialogStore.confirm(
+   `Do you want to delete the category with ID: ${categoryId}?`,
+  );
+  if (!result) return;
+
+  await axios.delete(`/categories/${categoryId}`);
+  this.categories = this.categories.filter((c) => c.id !== categoryId);
+ };
+
+ get filteredCategories() {
+  return this.filterCategories(this.categories);
+ }
 
  load = async () => {
   let resp = await axios.get<Array<Category>>('/categories/');
