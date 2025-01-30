@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { Route, Switch } from 'wouter';
@@ -26,6 +26,22 @@ const highlightSearchTerm = (text: string, searchTerm: string) => {
 };
 
 export default observer(({ store }: { store: Store }) => {
+ useEffect(() => {
+  const handleKeyDown = (event: KeyboardEvent) => {
+   if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    store.moveSelectionUp();
+   }
+   if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    store.moveSelectionDown();
+   }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+ }, [store]);
+
  useEffect(() => {
   store.load();
  }, []);
@@ -88,12 +104,14 @@ export default observer(({ store }: { store: Store }) => {
             key={p.id}
             draggable={true}
             onDragStart={(e) => (store.dragId = p.id)}
-            className="group relative z-20 flex w-full cursor-pointer select-none gap-2 border pl-2 shadow-inner odd:bg-gray-100 even:bg-yellow-50 hover:opacity-60"
+            className={`group relative z-20 flex w-full cursor-pointer
+            select-none gap-2 border pl-2 shadow-inner
+            ${p.selected ? 'bg-blue-100' : 'odd:bg-gray-100 even:bg-yellow-50'}`}
            >
             <span className="text-nowrap font-bold text-orange-800">
              {highlightSearchTerm(p.name, store.searchTerm)}
             </span>
-            <span className="truncate italic text-gray-600">
+            <span className="truncate text-gray-600">
              {highlightSearchTerm(p.content, store.searchTerm)}
             </span>
             <div className="invisible absolute right-0 top-0 flex flex-row gap-1 group-hover:visible">

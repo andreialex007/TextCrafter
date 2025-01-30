@@ -18,6 +18,7 @@ export type Prompt = {
  name: string;
  categoryId?: number;
  content: string;
+ selected: boolean;
 };
 
 export default class Store extends NavItem {
@@ -127,6 +128,7 @@ export default class Store extends NavItem {
 
  load = async () => {
   let resp = await axios.get<Array<Category>>('/categories/');
+  resp.data.forEach((c) => c.prompts.forEach((x) => (x.selected = false)));
   this.categories = resp.data;
  };
 
@@ -168,5 +170,52 @@ export default class Store extends NavItem {
    .value();
 
   await axios.put(`/prompts/${itemToDrag.id}`, updatedPrompt);
+ };
+
+ get visiblePrompts(): Array<Prompt> {
+  return this.categories.flatMap((category) =>
+   category.prompts.filter(
+    (prompt) =>
+     prompt.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+     prompt.content.toLowerCase().includes(this.searchTerm.toLowerCase()),
+   ),
+  );
+ }
+
+ deselectAllPrompts = () => {
+  this.categories.forEach((category) => {
+   category.prompts.forEach((prompt) => {
+    prompt.selected = false;
+   });
+  });
+ };
+
+ selectPrompt = (promptId: number) => {
+  if (!this.visiblePrompts.some((prompt) => prompt.id === promptId)) return; // Ensure the prompt is visible
+
+  this.deselectAllPrompts();
+
+  const selectedPrompt = this.visiblePrompts.find((prompt) => prompt.id === promptId);
+  if (selectedPrompt) {
+   selectedPrompt.selected = true;
+  }
+ };
+
+ moveSelectionUp = () => {
+  const visiblePrompts = this.visiblePrompts;
+  const currentIndex = visiblePrompts.findIndex((prompt) => prompt.selected);
+
+  if (currentIndex <= 0) return;
+  this.deselectAllPrompts();
+  visiblePrompts[currentIndex - 1].selected = true;
+ };
+
+ moveSelectionDown = () => {
+  const visiblePrompts = this.visiblePrompts;
+  const currentIndex = visiblePrompts.findIndex((prompt) => prompt.selected);
+
+  if (currentIndex >= visiblePrompts.length - 1) return;
+  this.deselectAllPrompts();
+  visiblePrompts[currentIndex + 1].selected = true;
  };
 }
