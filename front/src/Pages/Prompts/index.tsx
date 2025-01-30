@@ -46,7 +46,7 @@ export default observer(({ store }: { store: Store }) => {
       </div>
       <div
        onClick={() => store.addCategory()}
-       className="basic-btn self-end bg-emerald-600 text-white "
+       className="basic-btn self-end bg-emerald-600 px-3 text-white "
       >
        <i className="ri-add-box-fill"></i>
        New category
@@ -61,19 +61,19 @@ export default observer(({ store }: { store: Store }) => {
           <div className="flex- invisible float-end flex gap-1 group-hover/main:visible">
            <span
             onClick={() => store.addPrompt(c.id)}
-            className="basic-btn flex gap-1 bg-green-700 text-white"
+            className="basic-btn flex gap-1 bg-green-700 px-3 text-white"
            >
             <i className="ri-add-box-fill"></i> add
            </span>
            <span
             onClick={() => store.editCategory(c)}
-            className="basic-btn flex gap-1 bg-blue-700 text-white"
+            className="basic-btn flex gap-1 bg-blue-700 px-3 text-white"
            >
             <i className="ri-edit-fill"></i> edit
            </span>
            <span
             onClick={() => store.deleteCategory(c.id)}
-            className="basic-btn flex-gap-1 bg-red-700 text-white"
+            className="basic-btn flex-gap-1 bg-red-700 px-3 text-white"
            >
             <i className="ri-delete-bin-fill"></i>
             del
@@ -92,13 +92,13 @@ export default observer(({ store }: { store: Store }) => {
             <div className="invisible absolute right-0 top-0 flex flex-row gap-1 group-hover:visible">
              <span
               onClick={() => store.editPrompt(p)}
-              className="basic-btn flex gap-1 bg-blue-700 text-white"
+              className="basic-btn flex gap-1 bg-blue-700 px-3 text-white"
              >
               <i className="ri-edit-fill"></i> edit
              </span>
              <span
               onClick={() => store.deletePrompt(p.id, p.name, c.id)}
-              className="basic-btn flex-gap-1 bg-red-700 text-white"
+              className="basic-btn flex-gap-1 bg-red-700 px-3 text-white"
              >
               <i className="ri-delete-bin-fill"></i>
               del

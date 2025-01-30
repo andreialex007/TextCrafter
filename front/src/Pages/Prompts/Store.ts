@@ -4,6 +4,7 @@ import EditPromptStore from './EditPrompt/Store.ts';
 import EditCategoryStore from './EditCategory/Store.ts';
 import dialogStore from '@/Common/Confirmation/Store.ts';
 import axios from 'axios';
+import _ from 'lodash';
 
 export type Category = {
  id: number;
@@ -58,13 +59,17 @@ export default class Store extends NavItem {
 
  onPromptSave = () => {
   let newItem = this.editPromptModal.prompt;
-  let prompts = this.categories.find((x) => x.id == newItem.categoryId)!.prompts;
+  let category = this.categories.find((x) => x.id == newItem.categoryId)!;
+  let prompts = category.prompts;
   let current = prompts.find((x) => x.id == newItem.id)!;
   if (current) {
    Object.assign(current, newItem);
   } else {
    prompts.push(newItem);
   }
+  category.prompts = _(prompts)
+   .orderBy((x) => x.name)
+   .value();
  };
 
  onCategorySave = () => {
@@ -78,6 +83,9 @@ export default class Store extends NavItem {
     prompts: [],
    });
   }
+  this.categories = _(this.categories)
+   .orderBy((x) => x.name)
+   .value();
  };
 
  deletePrompt = async (promptId: number, name: string, categoryId: number) => {

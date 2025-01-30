@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import dialogStore from './Store';
 import { Dialog } from '@headlessui/react';
+import SaveCancel from '@/Common/ModalSegments/SaveCancel';
 
 export default observer(() => {
  return (
@@ -15,20 +16,12 @@ export default observer(() => {
      <Dialog.Title className="text-lg font-semibold">Confirmation</Dialog.Title>
      <Dialog.Description className="mt-2">{dialogStore.message}</Dialog.Description>
     </div>
-    <div className="flex justify-end gap-2 border-t border-gray-300 p-4">
-     <button
-      onClick={dialogStore.handleCancel}
-      className="rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
-     >
-      Cancel
-     </button>
-     <button
-      onClick={dialogStore.handleConfirm}
-      className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-     >
-      OK
-     </button>
-    </div>
+    <SaveCancel
+     okFun={dialogStore.handleConfirm}
+     cancelFun={dialogStore.handleCancel}
+     cancelText="Cancel"
+     okText="OK"
+    />
    </Dialog.Panel>
   </Dialog>
  );

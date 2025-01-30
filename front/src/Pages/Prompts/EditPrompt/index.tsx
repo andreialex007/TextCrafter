@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { useParams } from 'wouter';
+import SaveCancel from '@/Common/ModalSegments/SaveCancel.tsx';
 
 export default observer(({ store }: { store: Store }) => {
  let params = useParams();
@@ -13,7 +14,6 @@ export default observer(({ store }: { store: Store }) => {
    className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black/50 p-5"
   >
    <div className="w-full max-w-5xl rounded-lg bg-white shadow-lg">
-    {/* Modal Header */}
     <div className="flex items-center justify-between border-b border-gray-300 p-4">
      <h2 className="text-lg font-semibold">
       {(store.prompt.id ? 'Edit' : 'New') +
@@ -49,22 +49,12 @@ export default observer(({ store }: { store: Store }) => {
      </div>
     </div>
 
-    <div className="flex justify-end gap-2 border-t border-gray-300 p-4">
-     <button
-      className="rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
-      onClick={store.closeModal}
-     >
-      Cancel
-     </button>
-     <button
-      className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-      onClick={() => {
-       store.savePrompt();
-      }}
-     >
-      Save
-     </button>
-    </div>
+    <SaveCancel
+     okFun={store.savePrompt}
+     cancelFun={store.closeModal}
+     cancelText="Cancel"
+     okText="Save"
+    />
    </div>
   </dialog>
  );

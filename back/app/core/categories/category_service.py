@@ -1,15 +1,16 @@
-from typing import List
+from typing import List, cast
 
 from fastapi import Depends
+from functional import seq
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
-from common.database import get_db, Category
+from common.database import get_db, Category, Prompt
 from common.models.service_base import ServiceBase
 from core.categories.category_dto import CategoryDto, CreateCategoryDto, \
     UpdateCategoryDto, CategoryWithPromptsDto
 from core.categories.category_mapper import CategoryMapper
-from core.prompts.prompt_dto import PromptDto
+from core.prompts.prompt_mapper import PromptMapper
 
 
 def get_category_service(db: Session = Depends(get_db)):
@@ -35,6 +36,7 @@ class CategoryService(ServiceBase):
         result = await self.db.execute(
             select(Category)
             .options(joinedload(Category.prompts))
+            .order_by(Category.name)
         )
         categories = result.unique().scalars().all()
         return [
@@ -42,16 +44,10 @@ class CategoryService(ServiceBase):
                 id=category.id,
                 name=category.name,
                 description=category.description,
-                prompts=[
-                    PromptDto(
-                        id=prompt.id,
-                        name=prompt.name,
-                        user_id=prompt.user_id,
-                        category_id=prompt.category_id,
-                        content=prompt.content,
-                    )
-                    for prompt in category.prompts
-                ],
+                prompts=(seq(category.prompts)
+                         .order_by(lambda p: cast(Prompt, p).name)
+                         .select(lambda el: PromptMapper.to_prompt_dto(el))
+                         .to_list()),
             )
             for category in categories
         ]
