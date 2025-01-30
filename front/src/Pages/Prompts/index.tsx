@@ -6,6 +6,7 @@ import Page404 from '@/Common/Page404';
 import EditPrompt from './EditPrompt';
 import EditCategory from './EditCategory';
 import Confirmation from '@/Common/Confirmation';
+import EditDelRow from '@/Pages/Prompts/EditDelRow.tsx';
 
 const highlightSearchTerm = (text: string, searchTerm: string) => {
  if (!searchTerm) return text;
@@ -60,40 +61,33 @@ export default observer(({ store }: { store: Store }) => {
          className="group/main flex flex-col"
         >
          <div className="relative flex gap-3">
-          <div className="flex w-fit rounded bg-gray-500 px-2 font-bold text-white shadow">
-           {highlightSearchTerm(c.name, store.searchTerm)}
-          </div>
-          <div className="flex- invisible float-end flex gap-1 group-hover/main:visible">
-           <span
-            onClick={() => store.addPrompt(c.id)}
-            className="basic-btn flex gap-1 bg-green-700 px-3 text-white"
+          <div className="relative flex w-full rounded bg-slate-500 px-2  text-white shadow">
+           <div className="font-bold">
+            {highlightSearchTerm(c.name, store.searchTerm)}
+           </div>
+           <div
+            className="invisible absolute  right-0 float-end flex gap-1
+           group-hover/main:visible child:shadow"
            >
-            <i className="ri-add-box-fill"></i> add
-           </span>
-           <span
-            onClick={() => store.editCategory(c)}
-            className="basic-btn flex gap-1 bg-blue-700 px-3 text-white"
-           >
-            <i className="ri-edit-fill"></i> edit
-           </span>
-           <span
-            onClick={() => store.deleteCategory(c.id)}
-            className="basic-btn flex-gap-1 bg-red-700 px-3 text-white"
-           >
-            <i className="ri-delete-bin-fill"></i>
-            del
-           </span>
+            <span
+             onClick={() => store.addPrompt(c.id)}
+             className="basic-btn flex gap-1 bg-green-700 px-3 text-white"
+            >
+             <i className="ri-add-box-fill"></i> add
+            </span>
+            <EditDelRow
+             edit={() => store.editCategory(c)}
+             del={() => store.deleteCategory(c.id)}
+            />
+           </div>
           </div>
          </div>
          <div className=" flex flex-col ">
-          {c.prompts?.map((p) => (
+          {store.filterPrompts(c.prompts)?.map((p) => (
            <div
             key={p.id}
             draggable={true}
-            onDragStart={(e) => {
-             store.dragId = p.id;
-             e.dataTransfer.effectAllowed = 'move';
-            }}
+            onDragStart={(e) => (store.dragId = p.id)}
             className="group relative z-20 flex w-full cursor-pointer select-none gap-2 border pl-2 shadow-inner odd:bg-gray-100 even:bg-yellow-50 hover:opacity-60"
            >
             <span className="text-nowrap font-bold text-orange-800">
@@ -103,19 +97,10 @@ export default observer(({ store }: { store: Store }) => {
              {highlightSearchTerm(p.content, store.searchTerm)}
             </span>
             <div className="invisible absolute right-0 top-0 flex flex-row gap-1 group-hover:visible">
-             <span
-              onClick={() => store.editPrompt(p)}
-              className="basic-btn flex gap-1 bg-blue-700 px-3 text-white"
-             >
-              <i className="ri-edit-fill"></i> edit
-             </span>
-             <span
-              onClick={() => store.deletePrompt(p.id, p.name, c.id)}
-              className="basic-btn flex-gap-1 bg-red-700 px-3 text-white"
-             >
-              <i className="ri-delete-bin-fill"></i>
-              del
-             </span>
+             <EditDelRow
+              edit={() => store.editPrompt(p)}
+              del={() => store.deletePrompt(p.id, p.name, c.id)}
+             />
             </div>
            </div>
           ))}
