@@ -8,7 +8,7 @@ from core.auth.security import security
 
 SECRET_KEY = "testKey"
 ALGORITHM = "HS256"
-EXPIRE_MINS = 30
+EXPIRE_MINS = 60 * 24
 
 
 class AuthUtils:

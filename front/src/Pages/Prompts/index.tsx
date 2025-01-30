@@ -53,7 +53,12 @@ export default observer(({ store }: { store: Store }) => {
       </div>
       {store.filteredCategories.length > 0 ? (
        store.filteredCategories.map((c) => (
-        <div key={c.id} className="group/main flex flex-col">
+        <div
+         key={c.id}
+         onDrop={(e) => store.onDrop(c.id)}
+         onDragOver={(event) => event.preventDefault()}
+         className="group/main flex flex-col"
+        >
          <div className="relative flex gap-3">
           <div className="flex w-fit rounded bg-gray-500 px-2 font-bold text-white shadow">
            {highlightSearchTerm(c.name, store.searchTerm)}
@@ -82,7 +87,15 @@ export default observer(({ store }: { store: Store }) => {
          </div>
          <div className=" flex flex-col ">
           {c.prompts?.map((p) => (
-           <div className="group relative z-20 flex w-full cursor-pointer gap-2 border pl-2 shadow-inner odd:bg-gray-100 even:bg-yellow-50 hover:opacity-60">
+           <div
+            key={p.id}
+            draggable={true}
+            onDragStart={(e) => {
+             store.dragId = p.id;
+             e.dataTransfer.effectAllowed = 'move';
+            }}
+            className="group relative z-20 flex w-full cursor-pointer select-none gap-2 border pl-2 shadow-inner odd:bg-gray-100 even:bg-yellow-50 hover:opacity-60"
+           >
             <span className="text-nowrap font-bold text-orange-800">
              {highlightSearchTerm(p.name, store.searchTerm)}
             </span>

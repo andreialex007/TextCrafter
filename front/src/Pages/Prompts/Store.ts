@@ -34,6 +34,9 @@ export default class Store extends NavItem {
  searchTerm = '';
 
  @observable
+ dragId: number = 0;
+
+ @observable
  categories: Array<Category> = [];
 
  constructor() {
@@ -141,5 +144,29 @@ export default class Store extends NavItem {
     x.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
     x.content.toLowerCase().includes(this.searchTerm.toLowerCase()),
   );
+ };
+
+ onDrop = async (dropId: number) => {
+  let itemToDrag = this.categories
+   .flatMap((x) => x.prompts)
+   .find((x) => x.id === this.dragId)!;
+  let categoryToDrop = this.categories.find((x) => x.id === dropId)!;
+  let sourceCategory = this.categories.find((x) =>
+   x.prompts.some((p) => p.id === this.dragId),
+  )!;
+  if (sourceCategory.id === categoryToDrop.id) return;
+
+  sourceCategory.prompts = sourceCategory.prompts.filter((p) => p.id !== itemToDrag.id);
+  const updatedPrompt = {
+   ...itemToDrag,
+   categoryId: categoryToDrop.id,
+  };
+  categoryToDrop.prompts.push(updatedPrompt);
+
+  categoryToDrop.prompts = _(categoryToDrop.prompts)
+   .orderBy((x) => x.name)
+   .value();
+
+  await axios.put(`/prompts/${itemToDrag.id}`, updatedPrompt);
  };
 }
