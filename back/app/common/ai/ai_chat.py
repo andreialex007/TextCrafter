@@ -1,8 +1,11 @@
-from common.ai.ai_engine import AiEngine
 from common.ai.chat_response import TextProcessingResult
+from common.ai.engines.claude_engine import ClaudeSonnetEngine
+from common.ai.engines.openai_engine import OpenAiEngine
 
 
 class AiChat:
     @staticmethod
     def get_suggestions(text: str, prompt: str) -> TextProcessingResult:
-        return AiEngine.get_ai_response(f"{prompt}: {text}", TextProcessingResult)
+        return ClaudeSonnetEngine.get_ai_response(
+            f"{prompt} (generate 3 variants): {text}",
+            TextProcessingResult)
