@@ -4,6 +4,8 @@ import EditPromptStore from './EditPrompt/Store.ts';
 import EditCategoryStore from './EditCategory/Store.ts';
 import dialogStore from '@/Common/Confirmation/Store.ts';
 import axios from 'axios';
+
+import ResultViewStore from './ResultView/Store';
 import _ from 'lodash';
 
 let sampleText = `Whales are a widely distributed and diverse group of fully 
@@ -47,6 +49,9 @@ export default class Store extends NavItem {
 
  @observable
  editCategoryModal = new EditCategoryStore();
+
+ @observable
+ resultViewStore = new ResultViewStore();
 
  @observable
  searchTerm = '';

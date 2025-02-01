@@ -44,22 +44,25 @@ export default observer(({ store }: { store: Store }) => {
  return (
   <div className="basic-page full flex flex-col">
    <div className="flex flex-col gap-2">
-    <div className="relative flex-1">
-     <input
-      type="text"
-      placeholder="Search..."
-      className="focus:ring-azure-600 w-full rounded-lg border border-gray-300 bg-blue-50 p-2 pl-10 focus:outline-none focus:ring-2"
-      value={store.searchTerm}
-      onChange={(e) => (store.searchTerm = e.target.value)}
-     />
-     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"></i>
-    </div>
-    <div
-     onClick={() => store.addCategory()}
-     className="basic-btn self-end bg-emerald-600 px-3 text-white "
-    >
-     <i className="ri-add-box-fill"></i>
-     New category
+    <div className="flex flex-row gap-2">
+     <div className="relative flex-1">
+      <input
+       type="text"
+       placeholder="Search..."
+       className="focus:ring-azure-600 w-full rounded-lg border border-gray-300
+       bg-blue-50 p-2 pl-10 focus:outline-none focus:ring-2"
+       value={store.searchTerm}
+       onChange={(e) => (store.searchTerm = e.target.value)}
+      />
+      <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"></i>
+     </div>
+     <div
+      onClick={() => store.addCategory()}
+      className="flex size-12 cursor-pointer select-none items-center justify-center
+      gap-1 self-end rounded-lg bg-emerald-600 px-3 text-white hover:opacity-80"
+     >
+      <i className="ri-add-box-fill"></i>
+     </div>
     </div>
     {store.filteredCategories.length > 0 ? (
      store.filteredCategories.map((c) => (
@@ -74,7 +77,7 @@ export default observer(({ store }: { store: Store }) => {
          <div className="font-bold">{highlightSearchTerm(c.name, store.searchTerm)}</div>
          <div
           className="invisible absolute  right-0 float-end flex gap-1
-           group-hover/main:visible child:shadow"
+         group-hover/main:visible child:shadow"
          >
           <span
            onClick={() => store.addPrompt(c.id)}
@@ -89,6 +92,7 @@ export default observer(({ store }: { store: Store }) => {
          </div>
         </div>
        </div>
+
        <div className=" flex flex-col ">
         {store.filterPrompts(c.prompts)?.map((p) => (
          <div

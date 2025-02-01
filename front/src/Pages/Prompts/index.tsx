@@ -7,6 +7,7 @@ import EditPrompt from './EditPrompt';
 import EditCategory from './EditCategory';
 import Confirmation from '@/Common/Confirmation';
 import Search from '@/Pages/Prompts/Search.tsx';
+import ResultView from '@/Pages/Prompts/ResultView';
 
 export default observer(({ store }: { store: Store }) => {
  useEffect(() => {
@@ -28,6 +29,7 @@ export default observer(({ store }: { store: Store }) => {
       />
      </div>
     </div>
+    <ResultView store={store.resultViewStore} />
     <Search store={store} />
     <EditPrompt store={store.editPromptModal} />
     <EditCategory store={store.editCategoryModal} />
