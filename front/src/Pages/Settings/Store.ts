@@ -1,4 +1,4 @@
-import { makeAutoObservable, makeObservable, observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import NavItem from '@/Common/NavItem.ts';
 import axios from 'axios';
 
@@ -7,12 +7,14 @@ type SettingDto = {
  user_id: number;
  name: string;
  value: string;
+ description: string;
 };
 
 export default class Store extends NavItem {
  @observable
  loading = false;
 
+ @observable
  items: Array<SettingDto> = [];
 
  constructor() {
@@ -27,5 +29,9 @@ export default class Store extends NavItem {
  load = async () => {
   let resp = await axios.get<Array<SettingDto>>(`/settings/my`);
   this.items = resp.data;
+ };
+
+ save = () => {
+  console.log('save');
  };
 }

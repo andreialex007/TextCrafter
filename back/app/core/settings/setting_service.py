@@ -41,8 +41,9 @@ class SettingService(ServiceBase):
                 new_setting = SettingDto(
                     id=None,
                     user_id=user_id,
-                    name=setting.value,
-                    value=""
+                    name=setting.name,
+                    value="",
+                    description=setting.description
                 )
                 db_settings.append(new_setting)
         return sorted(db_settings, key=lambda x: x.name)

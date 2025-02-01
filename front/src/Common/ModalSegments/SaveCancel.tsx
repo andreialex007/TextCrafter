@@ -12,7 +12,7 @@ export default ({
  okText?: string;
 }) => {
  return (
-  <div className="flex justify-end gap-2 border-t border-gray-300 p-4">
+  <div className="flex justify-end gap-2  p-4">
    <button
     className="basic-btn bg-green-500 px-4 py-2 text-white"
     onClick={() => {

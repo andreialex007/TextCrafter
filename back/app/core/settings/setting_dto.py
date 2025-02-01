@@ -8,6 +8,7 @@ class SettingDto(DtoIdBase):
     id: Optional[int] = None
     user_id: Optional[int] = None
     name: Optional[str] = None
+    description: Optional[str] = None
     value: Optional[str] = None
 
 
@@ -23,12 +24,17 @@ class UpdateSettingDto(DtoIdBase):
 
 
 class UserSettings(Enum):
-    def _generate_next_value_(name, start, count, last_values):
-        return name
+    def __init__(self, value, description):
+        self._value_ = value
+        self.description = description
 
-    AI_API_KEY = auto()
-    OPTIONS_NUMBER = auto()
-    COMMON_SUGGESTION = auto()
+    @property
+    def get_description(self):
+        return self.description
+
+    AI_API_KEY = auto(), "API key for accessing the AI service"
+    OPTIONS_NUMBER = auto(), "Number of options presented to the user"
+    COMMON_SUGGESTION = auto(), "Common suggestions used in recommendations"
 
 
 UserSettings.ALL_SETTINGS = [setting for setting in UserSettings]
