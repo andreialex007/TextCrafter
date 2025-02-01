@@ -70,6 +70,7 @@ export default class Store extends NavItem {
   makeObservable(this);
   this.editPromptModal.onSave = this.onPromptSave;
   this.editCategoryModal.onSave = this.onCategorySave;
+  this.resultViewStore.onApply = this.onApplyPrompt;
  }
 
  name = 'Prompts';
@@ -101,6 +102,11 @@ export default class Store extends NavItem {
    .value();
  };
 
+ onApplyPrompt = () => {
+  let promptText = this.resultViewStore.selectedPromptText;
+  this.textExample = promptText;
+ };
+
  onCategorySave = () => {
   let newItem = this.editCategoryModal.category;
   let current = this.categories.find((x) => x.id == newItem.id);
@@ -130,6 +136,16 @@ export default class Store extends NavItem {
  addCategory = async () => {
   this.editCategoryModal.category = {} as any;
   this.editCategoryModal.show();
+ };
+
+ clickPrompt = async (prompt: Prompt) => {
+  this.resultViewStore.prompt = prompt;
+ };
+
+ selectByEnterPrompt = async () => {
+  let selected = this.visiblePrompts.find((x) => x.selected);
+  if (!selected) return;
+  this.resultViewStore.prompt = selected;
  };
 
  editCategory = async (category: Category) => {

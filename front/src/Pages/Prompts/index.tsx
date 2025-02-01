@@ -29,11 +29,17 @@ export default observer(({ store }: { store: Store }) => {
       />
      </div>
     </div>
-    <ResultView store={store.resultViewStore} />
-    <Search store={store} />
-    <EditPrompt store={store.editPromptModal} />
-    <EditCategory store={store.editCategoryModal} />
-    <Confirmation />
+    {store.resultViewStore.hasSelectedPrompt && (
+     <ResultView store={store.resultViewStore} />
+    )}
+    {!store.resultViewStore.hasSelectedPrompt && (
+     <>
+      <Search store={store} />
+      <EditPrompt store={store.editPromptModal} />
+      <EditCategory store={store.editCategoryModal} />
+      <Confirmation />
+     </>
+    )}
    </Route>
    <Route>
     <Page404 />

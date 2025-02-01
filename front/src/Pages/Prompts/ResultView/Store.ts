@@ -1,11 +1,19 @@
-import { makeAutoObservable, makeObservable, observable } from 'mobx';
+import { computed, makeAutoObservable, makeObservable, observable } from 'mobx';
+import type { Prompt } from '@/Pages/Prompts/Store.ts';
 
 export default class Store {
  @observable
- isOpen: boolean = false;
+ activeTab: number = 0;
+
+ onApply = () => {};
 
  @observable
- activeTab: number = 0;
+ prompt: Prompt = {} as any;
+
+ @computed
+ get hasSelectedPrompt() {
+  return !!this.prompt.id;
+ }
 
  @observable
  elements: Array<string> = [
@@ -18,8 +26,21 @@ export default class Store {
   makeObservable(this);
  }
 
- // Action to change the active tab
  setActiveTab(index: number) {
   this.activeTab = index;
  }
+
+ @computed
+ get selectedPromptText() {
+  return this.elements[this.activeTab];
+ }
+
+ goBack = () => {
+  this.prompt = {} as any;
+ };
+
+ apply = () => {
+  console.log('applying...');
+  this.onApply();
+ };
 }

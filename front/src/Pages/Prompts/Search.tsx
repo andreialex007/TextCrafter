@@ -23,6 +23,7 @@ const highlightSearchTerm = (text: string, searchTerm: string) => {
 export default observer(({ store }: { store: Store }) => {
  useEffect(() => {
   const handleKeyDown = (event: KeyboardEvent) => {
+   console.log('event.key=', event.key);
    if (event.key === 'ArrowUp') {
     event.preventDefault();
     store.moveSelectionUp();
@@ -30,6 +31,10 @@ export default observer(({ store }: { store: Store }) => {
    if (event.key === 'ArrowDown') {
     event.preventDefault();
     store.moveSelectionDown();
+   }
+   if (event.key === 'Enter') {
+    event.preventDefault();
+    store.selectByEnterPrompt();
    }
   };
 
@@ -98,6 +103,7 @@ export default observer(({ store }: { store: Store }) => {
          <div
           key={p.id}
           draggable={true}
+          onDoubleClick={() => store.clickPrompt(p)}
           onDragStart={(e) => (store.dragId = p.id)}
           className={`group relative z-20 flex w-full cursor-pointer
             select-none gap-2 border pl-2 shadow-inner
