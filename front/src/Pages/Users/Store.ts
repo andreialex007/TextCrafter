@@ -1,7 +1,13 @@
 import { makeObservable, observable } from 'mobx';
 import NavItem from '../../Common/NavItem.ts';
 import ItemEditStore from './Edit/Store.ts';
-import axios from 'axios';
+
+type UserDto = {
+ id?: number;
+ name: string;
+ email: string;
+ role: string;
+};
 
 export default class Store extends NavItem {
  @observable
@@ -17,4 +23,8 @@ export default class Store extends NavItem {
  name = 'Users';
  icon = 'group-fill';
  url = '/users';
+
+ editUser = () => {};
+
+ delUser = () => {};
 }

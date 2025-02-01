@@ -7,4 +7,6 @@ export default class Store {
  constructor() {
   makeObservable(this);
  }
+
+ //todo write methods
 }

@@ -2,7 +2,6 @@ from common.models.dto_base import DtoIdBase
 
 
 class UserDto(DtoIdBase):
-    id: int
     name: str
     role: str
 
