@@ -1,26 +1,31 @@
 from typing import Optional, List
 
-from common.models.dto_base import DtoBase
+from common.models.dto_base import DtoIdBase, DtoBase
 from core.prompts.prompt_dto import PromptDto
 
 
-class CategoryDto(DtoBase):
+class CategoryDto(DtoIdBase):
     id: int
     name: str
     description: Optional[str] = None
 
 
-class CreateCategoryDto(DtoBase):
+class CreateCategoryDto(DtoIdBase):
     name: str
     description: Optional[str] = None
 
 
-class UpdateCategoryDto(DtoBase):
+class UpdateCategoryDto(DtoIdBase):
     name: Optional[str] = None
     description: Optional[str] = None
 
 
-class CategoryWithPromptsDto(DtoBase):
+class CategoryWithPromptsDto(DtoIdBase):
     name: str
     description: Optional[str] = None
     prompts: List[PromptDto]
+
+
+class TotalStatistics(DtoBase):
+    categories: int
+    prompts: int

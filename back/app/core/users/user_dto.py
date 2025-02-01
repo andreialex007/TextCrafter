@@ -1,13 +1,13 @@
-from common.models.dto_base import DtoBase
+from common.models.dto_base import DtoIdBase
 
 
-class UserDto(DtoBase):
+class UserDto(DtoIdBase):
     id: int
     name: str
     role: str
 
 
-class CreateUserDto(DtoBase):
+class CreateUserDto(DtoIdBase):
     name: str
     email: str
     role: str

@@ -4,5 +4,12 @@ import Store from './Store';
 import { Route } from 'wouter';
 
 export default observer(({ store }: { store: Store }) => {
- return <div className="basic-page full flex flex-col">About the software page</div>;
+ return (
+  <div className="basic-page full flex flex-col">
+   <div>
+    <strong>Cool Software</strong> 2025 ©
+   </div>
+   <div className="text-sm italic">All rights reserved</div>
+  </div>
+ );
 });

@@ -1,13 +1,14 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, status
+from plotly.graph_objs.waterfall import Totals
 
 from core.auth.auth_utils import get_current_user_id
 from core.auth.security import security
 from core.categories.category_dto import (
     CategoryWithPromptsDto,
     CreateCategoryDto,
-    UpdateCategoryDto, CategoryDto,
+    UpdateCategoryDto, CategoryDto, TotalStatistics,
 )
 from core.categories.category_service import get_category_service, CategoryService
 
@@ -15,6 +16,13 @@ router = APIRouter(
     prefix="/categories",
     tags=["categories"],
     dependencies=[Depends(security)])
+
+
+@router.get("/stat", response_model=TotalStatistics)
+async def get_stat(
+        category_service: CategoryService = Depends(get_category_service),
+):
+    return await category_service.get_statistics()
 
 
 @router.get("/", response_model=List[CategoryWithPromptsDto])

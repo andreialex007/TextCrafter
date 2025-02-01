@@ -54,6 +54,7 @@ export default observer(({ store }: { store: Store }) => {
       <input
        type="text"
        placeholder="Search..."
+       autoFocus={true}
        className="focus:ring-azure-600 w-full rounded-lg border border-gray-300
        bg-blue-50 p-2 pl-10 focus:outline-none focus:ring-2"
        value={store.searchTerm}

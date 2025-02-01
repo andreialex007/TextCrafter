@@ -2,13 +2,13 @@ from typing import List, cast
 
 from fastapi import Depends
 from functional import seq
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session, joinedload
 
 from common.database import get_db, Category, Prompt
 from common.models.service_base import ServiceBase
 from core.categories.category_dto import CategoryDto, CreateCategoryDto, \
-    UpdateCategoryDto, CategoryWithPromptsDto
+    UpdateCategoryDto, CategoryWithPromptsDto, TotalStatistics
 from core.categories.category_mapper import CategoryMapper
 from core.prompts.prompt_mapper import PromptMapper
 
@@ -86,3 +86,11 @@ class CategoryService(ServiceBase):
         )
         await self.db.delete(category)
         await self.db.commit()
+
+    async def get_statistics(self) -> TotalStatistics:
+        total_categories = ((await self.db.execute(select(func.count(Category.id))))
+                            .scalar_one())
+        total_prompts = ((
+                             await self.db.execute(select(func.count(Prompt.id))))
+                         .scalar_one())
+        return TotalStatistics(categories=total_categories, prompts=total_prompts)
