@@ -1,12 +1,10 @@
 from fastapi import Depends
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from common.ai.ai_chat import AiChat
-from common.database import get_db, Category
+from common.database import get_db
 from common.models.service_base import ServiceBase
 from core.categories.category_dto import CategoryDto
-from core.categories.category_mapper import CategoryMapper
 from core.prompts.prompt_service import PromptService, get_prompt_service
 
 

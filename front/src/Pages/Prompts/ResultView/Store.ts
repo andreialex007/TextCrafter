@@ -1,4 +1,4 @@
-import { computed, makeAutoObservable, makeObservable, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import type { Prompt } from '@/Pages/Prompts/Store.ts';
 import axios from 'axios';
 
