@@ -3,6 +3,7 @@ import { action, computed, makeAutoObservable } from 'mobx';
 import AboutStore from './Pages/About/Store';
 import HomeStore from './Pages/Home/Store';
 import PromptsStore from './Pages/Prompts/Store';
+import SettingsStore from './Pages/Settings/Store';
 import UsersStore from './Pages/Users/Store';
 import NavItem from './Common/NavItem.ts';
 
@@ -27,8 +28,15 @@ export default class AppStore {
  promptsStore = new PromptsStore();
  homeStore = new HomeStore();
  usersStore = new UsersStore();
+ settingsStore = new SettingsStore();
 
- navItems = [this.homeStore, this.promptsStore, this.usersStore, this.aboutStore];
+ navItems = [
+  this.homeStore,
+  this.promptsStore,
+  this.usersStore,
+  this.settingsStore,
+  this.aboutStore,
+ ];
 
  constructor() {
   makeAutoObservable(this);

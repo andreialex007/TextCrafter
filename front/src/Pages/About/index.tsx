@@ -7,7 +7,10 @@ export default observer(({ store }: { store: Store }) => {
  return (
   <div className="basic-page full flex flex-col">
    <div>
-    <strong>Cool Software</strong> 2025 ©
+    <strong>
+     <i className="ri-aliens-fill"></i> Alien Software
+    </strong>{' '}
+    2025 ©
    </div>
    <div className="text-sm italic">All rights reserved</div>
   </div>

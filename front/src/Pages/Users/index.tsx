@@ -4,13 +4,12 @@ import Store from './Store';
 import { Route, Switch } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
-import List from './List';
 
 export default observer(({ store }: { store: Store }) => {
  return (
   <Switch>
    <Route path="/">
-    <List store={store.list} />
+    <div className="basic-page full flex flex-col"></div>
    </Route>
    <Route path="/:id">
     <Edit store={store.edit} />

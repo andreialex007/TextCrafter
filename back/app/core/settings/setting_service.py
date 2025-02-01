@@ -7,7 +7,8 @@ from sqlalchemy.orm import Session
 
 from common.database import get_db, Setting
 from common.models.service_base import ServiceBase
-from core.settings.setting_dto import SettingDto, CreateSettingDto, UpdateSettingDto
+from core.settings.setting_dto import SettingDto, CreateSettingDto, UpdateSettingDto, \
+    UserSettings
 from core.settings.settings_mapper import SettingMapper
 
 
@@ -26,9 +27,25 @@ class SettingService(ServiceBase):
     async def get_by_user_id(self, user_id: int) -> List[SettingDto]:
         result = await self.db.execute(select(Setting).filter(Setting.user_id == user_id))
         settings = result.scalars().all()
-        return (seq(settings)
-                .select(lambda x: SettingMapper.to_setting_dto(x))
-                .to_list())
+        all_settings = UserSettings.ALL_SETTINGS
+
+        db_settings = (
+            seq(settings)
+            .select(lambda x: SettingMapper.to_setting_dto(x))
+            .to_list()
+        )
+
+        existing_setting_names = {setting.name for setting in db_settings}
+        for setting in all_settings:
+            if setting.value not in existing_setting_names:
+                new_setting = SettingDto(
+                    id=None,
+                    user_id=user_id,
+                    name=setting.value,
+                    value=""
+                )
+                db_settings.append(new_setting)
+        return sorted(db_settings, key=lambda x: x.name)
 
     async def get_by_name_and_id(self, name: str, user_id: int) -> SettingDto:
         setting = (

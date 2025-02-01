@@ -4,9 +4,7 @@ import Store from './Store';
 
 export default observer(({ store }: { store: Store }) => {
  useEffect(() => {
-  setTimeout(() => {
-   store.load();
-  }, 200);
+  store.load();
  }, [store]);
 
  return (
@@ -29,7 +27,7 @@ export default observer(({ store }: { store: Store }) => {
       <div>Prompts</div>
      </div>
      {/* Categories Statistic */}
-     <div className="w-60 rounded-md bg-orange-500 p-5 text-2xl text-white shadow-2xl">
+     <div className="w-60 rounded-md bg-sky-500 p-5 text-2xl text-white shadow-2xl">
       <div className="mb-6 flex justify-between text-5xl">
        <i className="ri-folder-5-fill"></i>
        {/* Bind categories count */}
