@@ -140,12 +140,14 @@ export default class Store extends NavItem {
 
  clickPrompt = async (prompt: Prompt) => {
   this.resultViewStore.prompt = prompt;
+  this.resultViewStore.load(this.textExample);
  };
 
  selectByEnterPrompt = async () => {
   let selected = this.visiblePrompts.find((x) => x.selected);
   if (!selected) return;
   this.resultViewStore.prompt = selected;
+  this.resultViewStore.load(this.textExample);
  };
 
  editCategory = async (category: Category) => {

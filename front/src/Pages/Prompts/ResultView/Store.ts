@@ -1,5 +1,6 @@
 import { computed, makeAutoObservable, makeObservable, observable } from 'mobx';
 import type { Prompt } from '@/Pages/Prompts/Store.ts';
+import axios from 'axios';
 
 export default class Store {
  @observable
@@ -16,11 +17,10 @@ export default class Store {
  }
 
  @observable
- elements: Array<string> = [
-  'first text, very long text, super long text',
-  'second text, very long text, super long text',
-  'third text, very long text, super long text',
- ];
+ loading = true;
+
+ @observable
+ options: Array<string> = [];
 
  constructor() {
   makeObservable(this);
@@ -32,15 +32,27 @@ export default class Store {
 
  @computed
  get selectedPromptText() {
-  return this.elements[this.activeTab];
+  return this.options[this.activeTab];
+ }
+
+ async load(text: string) {
+  this.loading = true;
+  let resp = await axios.post<Array<string>>('/assistant/options', {
+   text: text,
+   promptId: this.prompt.id,
+  });
+  this.loading = false;
+  this.options = resp.data;
  }
 
  goBack = () => {
   this.prompt = {} as any;
+  this.activeTab = 0;
  };
 
  apply = () => {
   console.log('applying...');
   this.onApply();
+  this.goBack();
  };
 }

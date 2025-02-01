@@ -12,7 +12,6 @@ router = APIRouter(
 )
 
 
-# Define the request body schema
 class OptionsRequestBody(BaseModel):
     text: str
     promptId: int
