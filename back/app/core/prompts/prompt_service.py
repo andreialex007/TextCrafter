@@ -1,8 +1,10 @@
-from typing import List, Optional
+from typing import List
+
 from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from common.database import get_db, Prompt, User, Category
+
+from common.database import get_db, Prompt
 from common.models.service_base import ServiceBase
 from core.prompts.prompt_dto import PromptDto, CreatePromptDto, UpdatePromptDto
 from core.prompts.prompt_mapper import PromptMapper

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
-import SaveCancel from '@/Common/ModalSegments/SaveCancel.tsx';
 
 export default observer(({ store }: { store: Store }) => {
  useEffect(() => {
@@ -29,7 +28,6 @@ export default observer(({ store }: { store: Store }) => {
          <input
           type="text"
           placeholder={x.description}
-          autoFocus={true}
           className="focus:ring-azure-600 w-full rounded-lg border border-gray-300
        bg-gray-50 p-2  focus:outline-none focus:ring-2"
           value={x.value}

@@ -31,7 +31,9 @@ export default class Store extends NavItem {
   this.items = resp.data;
  };
 
- save = () => {
-  console.log('save');
+ save = async () => {
+  let items = this.items;
+  let resp = await axios.post('/settings/my', items);
+  let data = resp.data;
  };
 }
