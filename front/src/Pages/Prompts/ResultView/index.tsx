@@ -35,7 +35,11 @@ export default observer(({ store }: { store: Store }) => {
 
  return (
   <div className="pb-5 pl-5 pr-5">
-   {store.loading && <div>Loading...</div>}
+   {store.loading && (
+    <div className="inline-block animate-bounce">
+     <i className="ri-loader-2-fill inline-block animate-spin"></i> Loading...
+    </div>
+   )}
    {!store.loading && (
     <>
      <div className="mb-1 flex">

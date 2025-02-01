@@ -4,7 +4,6 @@ import Store from './Store';
 import { Route, Switch } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
-import EditDelRow from '@/Pages/Prompts/EditDelRow.tsx';
 
 export default observer(({ store }: { store: Store }) => {
  return (
@@ -15,33 +14,74 @@ export default observer(({ store }: { store: Store }) => {
       <thead className="font-normal text-white">
        <tr className="child:bg-slate-400 child:p-2 child:font-normal">
         <th className="w-16">
-         <input className="w-full rounded bg-white px-2" placeholder="Id" />
+         <input
+          value={store.searchId}
+          onChange={(e) => (store.searchId = e.target.value)}
+          className="w-full rounded bg-white px-2"
+          placeholder="Id"
+         />
         </th>
         <th className="w-1/4 ">
-         <input className="w-full rounded bg-white px-2" placeholder="Search email" />
+         <input
+          value={store.searchRole}
+          onChange={(e) => (store.searchRole = e.target.value)}
+          className="w-full rounded bg-white px-2"
+          placeholder="Search role"
+         />
+        </th>
+        <th className="w-1/3 ">
+         <input
+          value={store.searchEmail}
+          onChange={(e) => (store.searchEmail = e.target.value)}
+          className="w-full rounded bg-white px-2"
+          placeholder="Search email"
+         />
         </th>
         <th className=" w-full">
          <input
+          value={store.searchName}
+          onChange={(e) => (store.searchName = e.target.value)}
           className="w-full rounded bg-white px-2"
           placeholder="Find the user name"
          />
         </th>
-        <th className="w-28"></th>
+        <th className="w-56"></th>
        </tr>
        <tr className="child:bg-slate-500 child:p-2">
         <th className="text-left">Id</th>
+        <th className="text-left">Role</th>
         <th className="text-left">Email</th>
         <th className="text-left">Name</th>
-        <th className="text-right">Actions</th>
+        <th className="text-left">Actions</th>
        </tr>
       </thead>
       <tbody>
-       <tr>
-        <td>55</td>
-        <td>ivanov@ivanov.com</td>
-        <td>Ivanov Ivan</td>
-        <td></td>
-       </tr>
+       {store.items.map((x) => (
+        <tr
+         className={
+          'group border border-gray-200 even:bg-gray-50 ' +
+          'hover:heropattern-diagonalstripes-gray-200/90 child:border ' +
+          'child:border-gray-200 child:p-2'
+         }
+         key={x.id}
+        >
+         <td>{x.id}</td>
+         <td>{x.role}</td>
+         <td>{x.email}</td>
+         <td>{x.name}</td>
+         <td>
+          <div className="invisible flex w-full gap-2 border-none group-hover:visible">
+           <span className="basic-btn bg-sky-400 px-2 text-white">
+            <i className="ri-edit-fill"></i> edit
+           </span>
+           <span className="basic-btn bg-rose-400 px-2 text-white">
+            <i className="ri-delete-bin-fill"></i>
+            delete
+           </span>
+          </div>
+         </td>
+        </tr>
+       ))}
       </tbody>
      </table>
     </div>

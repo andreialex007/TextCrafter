@@ -1,8 +1,8 @@
-from typing import List, cast
+from typing import List, cast, Dict, Any, Tuple
 
 from fastapi import Depends
 from functional import seq
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from common.database import get_db, User
@@ -58,6 +58,37 @@ class UserService(ServiceBase):
             User.hashed_password == self.fake_hash_password(password)
         ))).scalar_one()
         return UserDto(id=user.id, name=user.name, role=user.role)
+
+    async def search_users(
+            self, filters: Dict[str, Any], take: int, skip: int
+    ) -> Tuple[List[UserDto], int, int]:
+
+        base_query = select(User)
+
+        filtered_query = base_query
+        for field, value in filters.items():
+            if value is not None:
+                filtered_query = filtered_query.filter(getattr(User, field) == value)
+
+        total_non_filtered_count = await self.db.scalar(
+            select(func.count()).select_from(User)
+        )
+
+        total_filtered_count = await self.db.scalar(
+            select(func.count()).select_from(filtered_query.subquery())
+        )
+
+        paginated_query = filtered_query.offset(skip).limit(take)
+        result = await self.db.execute(paginated_query)
+        users = result.scalars().all()
+
+        user_dtos = (
+            seq(users)
+            .map(lambda user: UserDto(id=user.id, name=user.name, role=user.role))
+            .to_list()
+        )
+
+        return user_dtos, total_non_filtered_count, total_filtered_count
 
     def fake_hash_password(self, password: str):
         return f"fakehashed{password}"
