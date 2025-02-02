@@ -35,7 +35,7 @@ export default class Store extends NavItem {
  searchName = '';
 
  @observable
- take = 10;
+ take = 5;
 
  @observable
  skip = 0;
@@ -77,7 +77,11 @@ export default class Store extends NavItem {
   );
   let { filtered, items, total } = resp.data;
   this.filtered = filtered;
-  this.items = items;
+  if (append) {
+   this.items = this.items.concat(items);
+  } else {
+   this.items = items;
+  }
   this.total = total;
   this.loading = false;
  };
@@ -90,10 +94,8 @@ export default class Store extends NavItem {
 
  @computed
  get hasMoreItems() {
-  return this.filtered < this.items.length;
+  return this.filtered > this.items.length;
  }
-
- editUser = () => {};
 
  delUser = () => {};
 }
