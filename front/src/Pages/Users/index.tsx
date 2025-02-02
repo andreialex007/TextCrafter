@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
-import { Route, Switch } from 'wouter';
+import { Route, Switch, useLocation } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
 
 export default observer(({ store }: { store: Store }) => {
+ const [location, navigate] = useLocation();
  useEffect(() => {
   store.load();
  }, [store]);
@@ -55,7 +56,10 @@ export default observer(({ store }: { store: Store }) => {
          />
         </th>
         <th className="w-56 text-right">
-         <span className="basic-btn float-right bg-orange-700 px-3 ">
+         <span
+          onClick={() => navigate('/0')}
+          className="basic-btn float-right bg-orange-700 px-3 "
+         >
           <i className="ri-add-box-fill"></i> new user
          </span>
         </th>
@@ -84,7 +88,10 @@ export default observer(({ store }: { store: Store }) => {
          <td>{x.name}</td>
          <td>
           <div className="invisible flex w-full gap-2 border-none group-hover:visible">
-           <span className="basic-btn bg-sky-400 px-2 text-white">
+           <span
+            onClick={() => navigate('/' + x.id)}
+            className="basic-btn bg-sky-400 px-2 text-white"
+           >
             <i className="ri-edit-fill"></i> edit
            </span>
            <span className="basic-btn bg-rose-400 px-2 text-white">

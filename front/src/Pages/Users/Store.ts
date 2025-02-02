@@ -4,7 +4,7 @@ import ItemEditStore from './Edit/Store.ts';
 import axios from 'axios';
 import app from '@/App.tsx';
 
-type UserDto = {
+export type UserDto = {
  id?: number;
  name: string;
  email: string;
