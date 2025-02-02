@@ -1,17 +1,20 @@
-import { makeAutoObservable } from "mobx"
+import { makeObservable, observable } from 'mobx';
 
 class PanelStore {
-  isOpen = false
-  selectedText = ""
+ @observable
+ isOpen = true;
 
-  constructor() {
-    makeAutoObservable(this)
-  }
+ @observable
+ selectedText = '';
 
-  togglePanel(text?: string) {
-    this.isOpen = !this.isOpen
-    if (text) this.selectedText = text
-  }
+ constructor() {
+  makeObservable(this);
+ }
+
+ togglePanel(text?: string) {
+  this.isOpen = !this.isOpen;
+  if (text) this.selectedText = text;
+ }
 }
 
-export const panelStore = new PanelStore()
+export const panelStore = new PanelStore();
