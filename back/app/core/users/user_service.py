@@ -62,13 +62,20 @@ class UserService(ServiceBase):
     async def search_users(
             self, filters: Dict[str, Any], take: int, skip: int
     ) -> Tuple[List[UserDto], int, int]:
-
         base_query = select(User)
-
         filtered_query = base_query
-        for field, value in filters.items():
-            if value is not None:
-                filtered_query = filtered_query.filter(getattr(User, field) == value)
+
+        for field in ["id", "name", "email", "role"]:
+            filter_value = filters.get(field)
+            if filter_value is not None:
+                if field == "id":
+                    filtered_query = filtered_query.filter(
+                        getattr(User, field) == filter_value
+                    )
+                else:
+                    filtered_query = filtered_query.filter(
+                        getattr(User, field).ilike(f"%{filter_value}%")
+                    )
 
         total_non_filtered_count = await self.db.scalar(
             select(func.count()).select_from(User)
@@ -84,7 +91,7 @@ class UserService(ServiceBase):
 
         user_dtos = (
             seq(users)
-            .map(lambda user: UserDto(id=user.id, name=user.name, role=user.role))
+            .map(lambda x: UserDto(id=x.id, name=x.name, role=x.role, email=x.email))
             .to_list()
         )
 
