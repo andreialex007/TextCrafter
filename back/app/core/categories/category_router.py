@@ -21,15 +21,17 @@ router = APIRouter(
 @router.get("/stat", response_model=TotalStatistics)
 async def get_stat(
         category_service: CategoryService = Depends(get_category_service),
+        user_id: int = Depends(get_current_user_id)
 ):
-    return await category_service.get_statistics()
+    return await category_service.get_statistics(user_id)
 
 
 @router.get("/", response_model=List[CategoryWithPromptsDto])
 async def get_all_categories(
         category_service: CategoryService = Depends(get_category_service),
+        user_id: int = Depends(get_current_user_id)
 ):
-    return await category_service.get_all()
+    return await category_service.get_all(user_id)
 
 
 @router.post("/", response_model=CategoryDto, status_code=status.HTTP_201_CREATED)

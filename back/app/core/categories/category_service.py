@@ -32,9 +32,10 @@ class CategoryService(ServiceBase):
         )
         return CategoryMapper.to_category_dto(category)
 
-    async def get_all(self) -> List[CategoryWithPromptsDto]:
+    async def get_all(self, user_id: int) -> List[CategoryWithPromptsDto]:
         result = await self.db.execute(
             select(Category)
+            .filter(Category.user_id == user_id)
             .options(joinedload(Category.prompts))
             .order_by(Category.name)
         )
@@ -87,10 +88,17 @@ class CategoryService(ServiceBase):
         await self.db.delete(category)
         await self.db.commit()
 
-    async def get_statistics(self) -> TotalStatistics:
-        total_categories = ((await self.db.execute(select(func.count(Category.id))))
-                            .scalar_one())
-        total_prompts = ((
-                             await self.db.execute(select(func.count(Prompt.id))))
-                         .scalar_one())
+    async def get_statistics(self, user_id: int) -> TotalStatistics:
+        total_categories = (
+            await self.db.execute(
+                select(func.count(Category.id)).where(Category.user_id == user_id)
+            )
+        ).scalar_one()
+
+        total_prompts = (
+            await self.db.execute(
+                select(func.count(Prompt.id)).where(Prompt.user_id == user_id)
+            )
+        ).scalar_one()
+
         return TotalStatistics(categories=total_categories, prompts=total_prompts)

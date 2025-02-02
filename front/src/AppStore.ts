@@ -6,6 +6,7 @@ import PromptsStore from './Pages/Prompts/Store';
 import SettingsStore from './Pages/Settings/Store';
 import UsersStore from './Pages/Users/Store';
 import NavItem from './Common/NavItem.ts';
+import AuthStore from '@/Common/AuthStore.ts';
 
 const components = import.meta.glob('./Pages/*/index.tsx', { eager: true });
 const compStores = import.meta.glob('./Pages/*/Store.ts', { eager: true });
@@ -30,13 +31,14 @@ export default class AppStore {
  usersStore = new UsersStore();
  settingsStore = new SettingsStore();
 
- navItems = [
-  this.homeStore,
-  this.promptsStore,
-  this.usersStore,
-  this.settingsStore,
-  this.aboutStore,
- ];
+ @computed
+ get navItems() {
+  let first: Array<any> = [this.homeStore, this.promptsStore];
+  let second: Array<any> = [this.aboutStore];
+  return first
+   .concat(AuthStore.isAdmin ? [this.usersStore, this.settingsStore] : [])
+   .concat(second);
+ }
 
  constructor() {
   makeAutoObservable(this);
