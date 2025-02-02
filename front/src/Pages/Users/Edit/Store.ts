@@ -1,4 +1,4 @@
-import { makeAutoObservable, makeObservable, observable, runInAction } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import axios from 'axios';
 import type { UserDto } from '@/Pages/Users/Store.ts';
 
@@ -26,7 +26,9 @@ export default class Store {
 
  saveUser = async () => {
   this.loading = true;
-  const response = await axios.put(`/users/${this.user.id}`, this.user);
+  let url = !this.user.id ? `/users/` : `/users/${this.user.id}`;
+  const response = await axios[!this.user.id ? 'post' : 'put'](url, this.user);
+  this.user = response.data;
   this.loading = false;
  };
  resetForm = () => {

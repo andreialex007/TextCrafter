@@ -6,6 +6,9 @@ class UserDto(DtoIdBase):
     email: str
     role: str
 
+    def isAdmin(self):
+        return self.role == "admin"
+
 
 class CreateUserDto(DtoIdBase):
     name: str
