@@ -84,7 +84,7 @@ export default observer(({ store }: { store: Store }) => {
      <div className="flex w-full justify-end gap-2">
       <button
        className="basic-btn bg-red-500 px-4 py-2 text-white"
-       onClick={() => navigate('/')}
+       onClick={() => store.goBack()}
       >
        <i className="ri-arrow-left-double-line"></i>
        Back

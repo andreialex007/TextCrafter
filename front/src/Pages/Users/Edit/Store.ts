@@ -40,4 +40,7 @@ export default class Store {
  resetForm = () => {
   this.user = {} as any;
  };
+ goBack = () => {
+  navigate('/users');
+ };
 }

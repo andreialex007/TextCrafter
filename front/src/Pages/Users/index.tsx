@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
-import { Route, Switch, useLocation } from 'wouter';
+import { Route, Switch, useLocation, useParams } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
 
 export default observer(({ store }: { store: Store }) => {
  const [location, navigate] = useLocation();
+ const params = useParams();
  useEffect(() => {
   store.load();
- }, [store]);
+ }, [store, params]);
 
  return (
   <Switch>

@@ -6,7 +6,7 @@ from common.models.dto_base import DtoIdBase
 class UserDto(DtoIdBase):
     name: str
     email: str
-    password: Optional[str]
+    password: Optional[str] = None
     role: str
 
     @property
