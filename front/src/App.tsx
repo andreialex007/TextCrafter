@@ -41,7 +41,7 @@ export default observer(() => {
        onClick={() => AuthStore.logout()}
        className="flex cursor-pointer items-center gap-1 p-4 px-6 hover:bg-gray-200"
       >
-       Logout
+       {AuthStore.name}
        <i className="ri-arrow-right-up-box-fill"></i>
       </div>
      </div>

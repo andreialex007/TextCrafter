@@ -3,6 +3,9 @@ import { getLocalItem, setLocalItem } from './Utils';
 import axios from 'axios';
 
 class AuthStore {
+ name: string | null = null;
+ id: number | null = null;
+
  get isAuthenticated() {
   return !!getLocalItem<string>('token');
  }
@@ -21,14 +24,26 @@ class AuthStore {
    },
   );
   setLocalItem<string>('token', '');
-  this.refreshAxios();
+  this.refresh();
   location.href = '/login';
  }
 
- refreshAxios = () => {
+ refresh = () => {
+  let token = getLocalItem<string>('token');
+  this.decodeToken(token!);
   axios.defaults.headers.common.Authorization =
-   this.isAuthenticated === null ? null : `Bearer ${getLocalItem<string>('token')}`;
+   this.isAuthenticated === null ? null : `Bearer ${token}`;
  };
+
+ decodeToken(token: string) {
+  const [, payloadBase64] = token.split('.');
+  if (!payloadBase64) {
+   throw new Error('Invalid token format');
+  }
+  const payloadJson = JSON.parse(atob(payloadBase64)); // atob decodes Base64
+  this.name = payloadJson.name || null;
+  this.id = payloadJson.id || null;
+ }
 
  constructor() {
   makeAutoObservable(this);

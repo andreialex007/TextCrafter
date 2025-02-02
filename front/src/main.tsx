@@ -6,7 +6,7 @@ import { initAxios } from '@/Common/Utils.ts';
 import AuthStore from '@/Common/AuthStore.ts';
 
 initAxios('http://127.0.0.1:8055');
-AuthStore.refreshAxios();
+AuthStore.refresh();
 
 createRoot(document.getElementById('root')!).render(
  <StrictMode>

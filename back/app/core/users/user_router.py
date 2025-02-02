@@ -19,6 +19,7 @@ class UpsertUserRequest(BaseModel):
     name: str
     email: str
     role: str
+    password: Optional[str]
 
 
 class SearchUserRequest(BaseModel):
@@ -45,7 +46,7 @@ async def search_users(
         user_id: int = Depends(get_current_user_id)
 ):
     user = await user_service.get_by_id(user_id)
-    if not user.isAdmin():
+    if not user.isAdmin:
         return None
     filters = {"id": body.id, "name": body.name, "role": body.role, "email": body.email}
     users, total_non_filtered, total_filtered = await user_service.search_users(
@@ -67,13 +68,14 @@ async def create_user(
         current_user_id: int = Depends(get_current_user_id)
 ):
     current_user = await user_service.get_by_id(current_user_id)
-    if not current_user.isAdmin():
+    if not current_user.isAdmin:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     new_user = UserDto(
         name=body.name,
         role=body.role,
-        email=body.email
+        email=body.email,
+        password=body.password
     )
 
     created_user = await user_service.add_user(new_user)
@@ -88,7 +90,7 @@ async def update_user(
         current_user_id: int = Depends(get_current_user_id)
 ):
     current_user = await user_service.get_by_id(current_user_id)
-    if not current_user.isAdmin():
+    if not current_user.isAdmin:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     updated_user = UserDto(
@@ -112,7 +114,7 @@ async def delete_user(
         current_user_id: int = Depends(get_current_user_id)
 ):
     current_user = await user_service.get_by_id(current_user_id)
-    if not current_user.isAdmin():
+    if not current_user.isAdmin:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     success = await user_service.delete_user(user_id)

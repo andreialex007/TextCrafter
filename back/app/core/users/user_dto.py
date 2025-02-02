@@ -1,12 +1,16 @@
+from typing import Optional
+
 from common.models.dto_base import DtoIdBase
 
 
 class UserDto(DtoIdBase):
     name: str
     email: str
+    password: Optional[str]
     role: str
 
-    def isAdmin(self):
+    @property
+    def isAdmin(self) -> bool:
         return self.role == "admin"
 
 

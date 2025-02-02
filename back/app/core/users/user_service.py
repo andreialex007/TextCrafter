@@ -1,4 +1,4 @@
-from typing import List, cast, Dict, Any, Tuple, Optional
+from typing import List, Dict, Any, Tuple, Optional
 
 from fastapi import Depends
 from functional import seq
@@ -45,7 +45,7 @@ class UserService(ServiceBase):
         self.db.add(new_user)
         await self.db.commit()
         await self.db.refresh(new_user)
-        return UserDto(id=new_user.id, name=new_user.name, role=new_user.role)
+        return UserMapper.to_user_dto(new_user)
 
     async def update_user(self, user_dto: UserDto) -> Optional[UserDto]:
         try:
@@ -73,8 +73,8 @@ class UserService(ServiceBase):
 
     async def get_current_user(self, token: str) -> UserDto:
         payload = AuthUtils.decode(token)
-        id: str = payload.get("id")
-        user = self.get_by_id(id)
+        id: int = int(payload.get("id"))
+        user = await self.get_by_id(id)
         return user
 
     async def login(self, name: str, password: str) -> UserDto:
@@ -116,7 +116,7 @@ class UserService(ServiceBase):
 
         user_dtos = (
             seq(users)
-            .map(lambda x: UserDto(id=x.id, name=x.name, role=x.role, email=x.email))
+            .map(lambda x: UserMapper.to_user_dto(x))
             .to_list()
         )
 
