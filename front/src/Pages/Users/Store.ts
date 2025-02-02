@@ -2,6 +2,7 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import NavItem from '../../Common/NavItem.ts';
 import ItemEditStore from './Edit/Store.ts';
 import axios from 'axios';
+import dialogStore from '@/Common/Confirmation/Store.ts';
 import app from '@/App.tsx';
 
 export type UserDto = {
@@ -97,5 +98,12 @@ export default class Store extends NavItem {
   return this.filtered > this.items.length;
  }
 
- delUser = () => {};
+ deleteUser = async (userId: number, name: string) => {
+  const result = await dialogStore.confirm(
+   `Do you want to delete this user: #${userId} "${name}"?`,
+  );
+  if (!result) return;
+  await axios.delete(`/users/${userId}`);
+  this.load();
+ };
 }

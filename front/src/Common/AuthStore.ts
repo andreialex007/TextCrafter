@@ -5,9 +5,14 @@ import axios from 'axios';
 class AuthStore {
  name: string | null = null;
  id: number | null = null;
+ role: string | null = null;
 
  get isAuthenticated() {
   return !!getLocalItem<string>('token');
+ }
+
+ get isAdmin() {
+  return (this.role ?? '') === 'admin';
  }
 
  login(token: string) {
@@ -43,6 +48,7 @@ class AuthStore {
   const payloadJson = JSON.parse(atob(payloadBase64)); // atob decodes Base64
   this.name = payloadJson.name || null;
   this.id = payloadJson.id || null;
+  this.role = payloadJson.role || null;
  }
 
  constructor() {

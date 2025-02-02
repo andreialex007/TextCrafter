@@ -30,7 +30,7 @@ async def login(
         )
 
     access_token = AuthUtils.create_access_token(
-        data={"name": user.name, "id": user.id}
+        data={"name": user.name, "id": user.id, "role": user.role}
     )
 
     response.set_cookie(

@@ -4,6 +4,7 @@ import Store from './Store';
 import { Route, Switch, useLocation, useParams } from 'wouter';
 import Page404 from '@/Common/Page404';
 import Edit from './Edit';
+import Confirmation from '@/Common/Confirmation';
 
 export default observer(({ store }: { store: Store }) => {
  const [location, navigate] = useLocation();
@@ -95,7 +96,10 @@ export default observer(({ store }: { store: Store }) => {
            >
             <i className="ri-edit-fill"></i> edit
            </span>
-           <span className="basic-btn bg-rose-400 px-2 text-white">
+           <span
+            onClick={() => store.deleteUser(x.id ?? 0, x.name)}
+            className="basic-btn bg-rose-400 px-2 text-white"
+           >
             <i className="ri-delete-bin-fill"></i>
             delete
            </span>
@@ -127,6 +131,7 @@ export default observer(({ store }: { store: Store }) => {
       </div>
      )}
     </div>
+    <Confirmation />
    </Route>
    <Route path="/:id">
     <Edit store={store.edit} />
