@@ -1,26 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Your custom styles below */
+@layer base {
+    html {
+        @apply flex m-0 p-0;
+    }
 
-html {
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
+    body {
+        @apply w-full m-0 p-0 font-['Lexend'] font-light text-xl overflow-x-hidden flex;
+    }
 
-body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Lexend', sans-serif;
-    font-weight: 300;
-    font-size: 1.2rem;
-    overflow-x: hidden;
-    display: flex;
-}
-
-#root {
-    width: 100%;
-    display: flex;
-    flex-flow: column;
+    #root {
+        @apply w-full flex flex-col;
+    }
 }
