@@ -1,22 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "Text Select Panel",
-  "version": "1.0",
+  "name": "Text Selection Panel",
+  "version": "1.0.0",
+  "description": "Shows selected text in a panel",
   "permissions": [
-    "activeTab",
-    "scripting"
+    "activeTab"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "action": {},
-  "commands": {
-    "toggle-panel": {
-      "suggested_key": {
-        "default": "Alt+S",
-        "mac": "Command+S"
-      },
-      "description": "Toggle selection panel"
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
     }
-  }
+  ]
 }

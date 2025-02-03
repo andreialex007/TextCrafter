@@ -1,5 +1,5 @@
 import { makeObservable, observable } from 'mobx';
-import PromptsStore from './../../front/src/Pages/Prompts/Store.ts';
+import PromptsStore from '../src/Pages/Prompts/Store.ts';
 
 class PanelStore {
  @observable

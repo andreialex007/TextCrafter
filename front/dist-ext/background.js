@@ -1,0 +1,1 @@
+chrome.commands.onCommand.addListener(t=>{t==="toggle-panel"&&chrome.tabs.query({active:!0,currentWindow:!0},async a=>{const e=a[0];await chrome.scripting.executeScript({target:{tabId:e.id},files:["content.js"]}),chrome.tabs.sendMessage(e.id,{action:"TOGGLE_PANEL"})})});

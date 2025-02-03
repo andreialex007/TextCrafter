@@ -1,15 +1,28 @@
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import { store } from './store';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Panel from "./components/Panel";
+import { selectionStore } from "./store/selectionStore";
+import "./index.css";
 
-const app = document.createElement('div');
-app.id = 'text-select-panel-root';
-document.body.appendChild(app);
-createRoot(app).render(<App />);
+// Create container for the panel
+const container = document.createElement("div");
+document.body.appendChild(container);
+const root = ReactDOM.createRoot(container);
 
-chrome.runtime.onMessage.addListener((message) => {
- if (message.action === 'TOGGLE_PANEL') {
-  const selection = window.getSelection()?.toString().trim();
-  store.togglePanel(selection);
- }
+// Render the panel
+root.render(
+  <React.StrictMode>
+    <Panel />
+  </React.StrictMode>,
+);
+
+// Listen for Alt+S keyboard shortcut
+document.addEventListener("keydown", (e) => {
+  if (e.altKey && e.key === "s") {
+    const selectedText = window.getSelection()?.toString() || "";
+    if (selectedText) {
+      selectionStore.setSelectedText(selectedText);
+      selectionStore.togglePanel(true);
+    }
+  }
 });
