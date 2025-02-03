@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { store } from "../store/store.ts";
+import "remixicon/fonts/remixicon.css";
 import Prompts from "../../../front/src/Pages/Prompts/Prompts";
 import { initAxios } from "../../../front/src/Common/Utils.ts";
 import authStore from "../../../front/src/Common/AuthStore.ts";
@@ -18,22 +19,15 @@ const Panel = observer(() => {
 
   return (
     <div id="text-selection-extension-root">
-      <div className="fixed bottom-0 z-50 bg-white left-0 right-0 shadow-lg border-t border-gray-200 p-4 font-sans">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-2"></div>
-          <p className="text-gray-700">
-            <textarea
-              className="w-full resize-none rounded border bg-yellow-50 p-2 text-sm"
-              rows={5}
-              placeholder="Your text to experiment..."
-              value={store.prompts.textExample}
-              onChange={(e) => (store.prompts.textExample = e.target.value)}
-              onKeyDown={(event) => event.stopPropagation()}
-            />
-            <Prompts store={store.prompts} />
-          </p>
-        </div>
-      </div>
+      <textarea
+        className="w-full resize-none rounded border bg-yellow-50 p-2 text-sm"
+        rows={5}
+        placeholder="Your text to experiment..."
+        value={store.prompts.textExample}
+        onChange={(e) => (store.prompts.textExample = e.target.value)}
+        onKeyDown={(event) => event.stopPropagation()}
+      />
+      <Prompts store={store.prompts} />
     </div>
   );
 });

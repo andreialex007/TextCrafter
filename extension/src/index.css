@@ -1,26 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.active-item {
-    @apply bg-orange-500 text-white cursor-default
-}
-
-.active-item:hover {
-    @apply bg-orange-500
-}
-
-.basic-input {
-    @apply w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none;
-}
-
-
-.basic-btn {
-    @apply cursor-pointer flex gap-1 hover:opacity-80 select-none w-fit rounded;
-}
-
-.basic-page {
-    @apply p-5
-}
-
-
