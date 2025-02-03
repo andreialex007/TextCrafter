@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 class SelectionStore {
   selectedText: string = "";
-  isPanelVisible: boolean = false;
+  isPanelVisible: boolean = true;
 
   constructor() {
     makeAutoObservable(this);
