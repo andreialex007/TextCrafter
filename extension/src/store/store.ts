@@ -1,11 +1,16 @@
-import { makeAutoObservable } from "mobx";
+import { makeObservable, observable } from "mobx";
+import PromptStore from "./../../../front/src/Pages/Prompts/Store.ts";
 
 class SelectionStore {
+  @observable
   selectedText: string = "";
+  @observable
   isPanelVisible: boolean = true;
 
+  prompts: PromptStore = new PromptStore();
+
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this);
   }
 
   setSelectedText(text: string) {
@@ -17,4 +22,4 @@ class SelectionStore {
   }
 }
 
-export const selectionStore = new SelectionStore();
+export const store = new SelectionStore();

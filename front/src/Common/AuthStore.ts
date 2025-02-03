@@ -35,14 +35,18 @@ class AuthStore {
  }
 
  refresh = () => {
+  this.refreshAxios();
+  if (this.isAuthenticated) {
+   this.decodeToken(getLocalItem<string>('token')!);
+   console.log('role=', this.role);
+  }
+ };
+
+ refreshAxios = () => {
   let token = getLocalItem<string>('token');
 
   axios.defaults.headers.common.Authorization =
    this.isAuthenticated === null ? null : `Bearer ${token}`;
-  if (this.isAuthenticated) {
-   this.decodeToken(token!);
-   console.log('role=', this.role);
-  }
  };
 
  decodeToken(token: string) {

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Panel from "./components/Panel";
-import { selectionStore } from "./store/selectionStore";
+import { store } from "./store/store.ts";
 import "./content.css";
 
 const container = document.createElement("div");
@@ -20,8 +20,8 @@ document.addEventListener("keydown", (e) => {
   if (e.altKey && e.key === "s") {
     const selectedText = window.getSelection()?.toString() || "";
     if (selectedText) {
-      selectionStore.setSelectedText(selectedText);
-      selectionStore.togglePanel(true);
+      store.setSelectedText(selectedText);
+      store.togglePanel(true);
     }
   }
 });
