@@ -3,11 +3,7 @@ import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { Route, Switch } from 'wouter';
 import Page404 from './../../Common/Page404';
-import EditPrompt from './EditPrompt';
-import EditCategory from './EditCategory';
-import Confirmation from './../../Common/Confirmation';
-import Search from './Search';
-import ResultView from './ResultView';
+import Prompts from './Prompts';
 
 export default observer(({ store }: { store: Store }) => {
  useEffect(() => {
@@ -29,17 +25,7 @@ export default observer(({ store }: { store: Store }) => {
       />
      </div>
     </div>
-    {store.resultViewStore.hasSelectedPrompt && (
-     <ResultView store={store.resultViewStore} />
-    )}
-    {!store.resultViewStore.hasSelectedPrompt && (
-     <>
-      <Search store={store} />
-      <EditPrompt store={store.editPromptModal} />
-      <EditCategory store={store.editCategoryModal} />
-      <Confirmation />
-     </>
-    )}
+    <Prompts store={store} />
    </Route>
    <Route>
     <Page404 />
