@@ -1,4 +1,7 @@
-/** @type {import('tailwindcss').Config} */
+import {
+  scopedPreflightStyles,
+  isolateInsideOfContainer,
+} from "tailwindcss-scoped-preflight";
 
 export default {
   content: [
@@ -8,9 +11,19 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
   corePlugins: {
-    preflight: false, // Disable Tailwind's base/reset styles
+    preflight: false, // Disable default preflight
   },
+  plugins: [
+    scopedPreflightStyles({
+      isolationStrategy: isolateInsideOfContainer(
+        "#text-selection-extension-root",
+        {
+          // Optional: exclude certain elements from preflight
+          // except: '.no-preflight'
+        },
+      ),
+    }),
+  ],
   important: "#text-selection-extension-root",
 };

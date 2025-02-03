@@ -18,7 +18,7 @@ const Panel = observer(() => {
 
   return (
     <div id="text-selection-extension-root">
-      <div className="fixed bottom-0 left-0 right-0 bg-yellow-200 shadow-lg border-t border-gray-200 p-4 font-sans">
+      <div className="fixed bottom-0 z-50 bg-white left-0 right-0 shadow-lg border-t border-gray-200 p-4 font-sans">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-2"></div>
           <p className="text-gray-700">
