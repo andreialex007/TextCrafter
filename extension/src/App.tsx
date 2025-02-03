@@ -1,30 +1,35 @@
-import { observer } from 'mobx-react-lite';
-import { store } from './store';
-import Prompts from './../../front/src/Pages/Prompts/Prompts';
-import { initAxios } from './../../front/src/Common/Utils';
-import AuthStore from '../../front/src/Common/AuthStore.ts';
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
-initAxios('http://127.0.0.1:8055');
-AuthStore.refresh();
+function App() {
+  const [count, setCount] = useState(0);
 
-const App = observer(() => {
- if (!store.isOpen) return null;
-
- return (
-  <div className="fixed bottom-0 left-0 right-0 flex border-t border-gray-200 bg-white p-4 shadow-lg">
-   <div className="flex flex-col px-4 text-gray-600">
-    <textarea
-     className="w-full resize-none rounded border bg-yellow-50 p-2 text-sm"
-     rows={5}
-     placeholder="Your text to experiment..."
-     value={store.selectedText}
-     onChange={(e) => (store.selectedText = e.target.value)}
-     onKeyDown={(event) => event.stopPropagation()}
-    />
-    <Prompts store={store.prompts} />
-   </div>
-  </div>
- );
-});
+  return (
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card bg-red-500">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  );
+}
 
 export default App;
