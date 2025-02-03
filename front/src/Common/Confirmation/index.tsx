@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import dialogStore from './Store';
 import { Dialog } from '@headlessui/react';
-import SaveCancel from '@/Common/ModalSegments/SaveCancel';
+import SaveCancel from './../ModalSegments/SaveCancel';
 
 export default observer(() => {
  return (

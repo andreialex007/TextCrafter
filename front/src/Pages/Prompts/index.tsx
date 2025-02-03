@@ -2,12 +2,12 @@ import React, { useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { Route, Switch } from 'wouter';
-import Page404 from '@/Common/Page404';
+import Page404 from './../../Common/Page404';
 import EditPrompt from './EditPrompt';
 import EditCategory from './EditCategory';
-import Confirmation from '@/Common/Confirmation';
-import Search from '@/Pages/Prompts/Search.tsx';
-import ResultView from '@/Pages/Prompts/ResultView';
+import Confirmation from './../../Common/Confirmation';
+import Search from './Search';
+import ResultView from './ResultView';
 
 export default observer(({ store }: { store: Store }) => {
  useEffect(() => {

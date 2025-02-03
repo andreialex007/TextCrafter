@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
-import EditDelRow from '@/Pages/Prompts/EditDelRow.tsx';
+import EditDelRow from './EditDelRow';
 
 const highlightSearchTerm = (text: string, searchTerm: string) => {
  if (!searchTerm) return text;

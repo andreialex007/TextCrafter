@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Store from './Store';
 import { useParams } from 'wouter';
-import SaveCancel from '@/Common/ModalSegments/SaveCancel.tsx';
+import SaveCancel from './../../../Common/ModalSegments/SaveCancel';
 
 export default observer(({ store }: { store: Store }) => {
  let params = useParams();

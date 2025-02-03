@@ -2,7 +2,7 @@ import { makeAutoObservable, makeObservable, observable } from 'mobx';
 import NavItem from '../../Common/NavItem.ts';
 import EditPromptStore from './EditPrompt/Store.ts';
 import EditCategoryStore from './EditCategory/Store.ts';
-import dialogStore from '@/Common/Confirmation/Store.ts';
+import dialogStore from './../../Common/Confirmation/Store.ts';
 import axios from 'axios';
 
 import ResultViewStore from './ResultView/Store';

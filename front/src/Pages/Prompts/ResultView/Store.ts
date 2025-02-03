@@ -1,5 +1,5 @@
 import { computed, makeObservable, observable } from 'mobx';
-import type { Prompt } from '@/Pages/Prompts/Store.ts';
+import type { Prompt } from './../Store';
 import axios from 'axios';
 
 export default class Store {
