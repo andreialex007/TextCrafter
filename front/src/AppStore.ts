@@ -1,4 +1,4 @@
-import { action, computed, makeAutoObservable } from 'mobx';
+import { action, computed, makeAutoObservable, makeObservable, observable } from 'mobx';
 
 import AboutStore from './Pages/About/Store';
 import HomeStore from './Pages/Home/Store';
@@ -10,6 +10,11 @@ import AuthStore from '@/Common/AuthStore.ts';
 
 const components = import.meta.glob('./Pages/*/index.tsx', { eager: true });
 const compStores = import.meta.glob('./Pages/*/Store.ts', { eager: true });
+
+let sampleText = `A smartphone is a mobile device that combines the functionality of a traditional mobile phone with advanced computing capabilities. It typically has a touchscreen interface, allowing users to access a wide range of applications and services, such as web browsing, email, and social media, as well as multimedia playback and streaming. Smartphones have built-in cameras, GPS navigation, and support for various communication methods, including voice calls, text messaging, and internet-based messaging apps.
+
+Smartphones are distinguished from older-design feature phones by their more advanced hardware capabilities and extensive mobile operating systems, access to the internet, business applications, mobile payments, and multimedia functionality, including music, video, gaming, radio, and television.
+`;
 
 export const allPages = Object.entries(components)
  .filter((x) => !x[0].includes('Login'))
@@ -41,10 +46,12 @@ export default class AppStore {
  }
 
  constructor() {
-  makeAutoObservable(this);
+  makeObservable(this);
+  setTimeout(() => {
+   this.promptsStore.textExample = sampleText;
+  }, 10);
  }
 
- @computed
  getActivePage(location: string) {
   return this.navItems.find((x) => x.isActive(location));
  }

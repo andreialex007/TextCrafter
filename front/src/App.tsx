@@ -47,11 +47,16 @@ export default observer(() => {
      </div>
     )}
     <Switch>
-     {allPages.map((x) => (
-      <Route key={x.name} path={x.store.url} nest={x.store.url !== '/'}>
-       <x.component store={x.store}></x.component>
-      </Route>
-     ))}
+     {store.navItems.map((navItem) => {
+      const page = allPages.find((p) => p.name === navItem.name);
+      if (!page) return null;
+
+      return (
+       <Route key={navItem.name} path={navItem.url} nest={navItem.url !== '/'}>
+        <page.component store={navItem} />
+       </Route>
+      );
+     })}
      <Route path="/login">
       <Login />
      </Route>
