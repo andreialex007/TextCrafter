@@ -1,0 +1,17 @@
+@tailwind components;
+@tailwind utilities;
+
+/* Explicitly avoid including base styles */
+/* @tailwind base; */
+
+/* Create a scoped context for our extension */
+#text-selection-extension-root {
+    all: initial;
+    font-family: system-ui, sans-serif;
+}
+
+/* Reset styles only for direct children of our root */
+#text-selection-extension-root > * {
+    all: initial;
+    font-family: inherit;
+}

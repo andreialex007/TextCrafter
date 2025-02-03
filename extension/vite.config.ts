@@ -14,5 +14,6 @@ export default defineConfig({
         assetFileNames: "[name].[ext]",
       },
     },
+    cssCodeSplit: false, // This ensures CSS is bundled into a single file
   },
 });

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "devExt": "vite",
-    "buildExt": "tsc -b && vite build",
+    "buildExt": "tsc && vite build && npx tailwindcss -i ./src/content.css -o ./dist/style.css",
     "lint": "eslint my-chrome-extension",
     "preview": "vite preview"
   },

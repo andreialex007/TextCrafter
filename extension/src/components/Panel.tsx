@@ -5,18 +5,21 @@ const Panel = observer(() => {
   if (!selectionStore.isPanelVisible) return null;
 
   return (
-    <div className="fixed bg-yellow-200 bottom-0 left-0 right-0 shadow-lg border-t border-gray-200 p-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="text-lg font-semibold">Selected Text</h3>
-          <button
-            onClick={() => selectionStore.togglePanel(false)}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ×
-          </button>
+    <div id="text-selection-extension-root">
+      <div className="crx-fixed crx-bottom-0 crx-left-0 crx-right-0 crx-bg-yellow-200 crx-shadow-lg crx-border-t crx-border-gray-200 crx-p-4 crx-font-sans">
+        <div className="crx-max-w-4xl crx-mx-auto">
+          <div className="crx-flex crx-justify-between crx-items-center crx-mb-2">
+            <h3 className="crx-text-lg crx-font-semibold">Selected Text</h3>
+            <button
+              onClick={() => selectionStore.togglePanel(false)}
+              className="crx-text-gray-500 hover:crx-text-gray-700 crx-cursor-pointer"
+              style={{ cursor: "pointer" }} // Add explicit cursor style
+            >
+              ×
+            </button>
+          </div>
+          <p className="crx-text-gray-700">{selectionStore.selectedText}</p>
         </div>
-        <p className="text-gray-700">{selectionStore.selectedText}</p>
       </div>
     </div>
   );
