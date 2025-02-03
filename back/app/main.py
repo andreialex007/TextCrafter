@@ -3,22 +3,21 @@ import traceback
 
 import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.exceptions import RequestValidationError, HTTPException
+from fastapi.exceptions import RequestValidationError
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
 
 from common.database import AsyncSessionLocal
+from core.assistant import assistant_router as assistant_router
 from core.auth import auth_router
-
+from core.categories import category_router as categories_router
 from core.categories.category_dto import CreateCategoryDto
 from core.categories.category_service import CategoryService
+from core.prompts import prompt_router as prompts_router
 from core.prompts.prompt_dto import CreatePromptDto
 from core.prompts.prompt_service import PromptService
 from core.settings import setting_router as settings_router
 from core.users import user_router as users_router
-from core.categories import category_router as categories_router
-from core.prompts import prompt_router as prompts_router
-from core.assistant import assistant_router as assistant_router
 from core.users.user_dto import CreateUserDto
 from core.users.user_service import UserService
 from migrations.run import run_app_migrations
@@ -93,7 +92,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origin_regex=".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

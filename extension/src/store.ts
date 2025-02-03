@@ -1,8 +1,11 @@
 import { makeObservable, observable } from 'mobx';
+import PromptsStore from './../../front/src/Pages/Prompts/Store.ts';
 
 class PanelStore {
  @observable
  isOpen = true;
+
+ prompts: PromptsStore = new PromptsStore();
 
  @observable
  selectedText = '';
@@ -17,4 +20,4 @@ class PanelStore {
  }
 }
 
-export const panelStore = new PanelStore();
+export const store = new PanelStore();
