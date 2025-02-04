@@ -2,31 +2,64 @@ import { observer } from "mobx-react-lite";
 import { store } from "../store/store.ts";
 import "remixicon/fonts/remixicon.css";
 import Prompts from "../../../front/src/Pages/Prompts/Prompts";
-import { initAxios } from "../../../front/src/Common/Utils.ts";
+import {
+  getChromeItem,
+  getLocalItem,
+  initAxios,
+  isChromeStorageAvailable,
+  setLocalItem,
+} from "../../../front/src/Common/Utils.ts";
 import authStore from "../../../front/src/Common/AuthStore.ts";
+import LoginForm from "../../../front/src/Pages/Login/LoginForm.tsx";
+import LoginStore from "../../../front/src/Pages/Login/Store.ts";
+import React from "react";
+
 initAxios("http://127.0.0.1:8055");
-authStore.refreshAxios();
 
-let sampleText = `A smartphone is a mobile device that combines the functionality of a traditional mobile phone with advanced computing capabilities. It typically has a touchscreen interface, allowing users to access a wide range of applications and services, such as web browsing, email, and social media, as well as multimedia playback and streaming. Smartphones have built-in cameras, GPS navigation, and support for various communication methods, including voice calls, text messaging, and internet-based messaging apps.
-
-Smartphones are distinguished from older-design feature phones by their more advanced hardware capabilities and extensive mobile operating systems, access to the internet, business applications, mobile payments, and multimedia functionality, including music, video, gaming, radio, and television.
-`;
+if (isChromeStorageAvailable()) {
+  getChromeItem<string>("token").then((value) => {
+    if (value) {
+      setLocalItem<string>("token", value);
+      authStore.refresh();
+      store.isLoaded = true;
+    }
+  });
+} else {
+  authStore.refresh();
+  store.isLoaded = true;
+}
 
 const Panel = observer(() => {
+  if (!store.isLoaded) return;
+
   if (!store.isPanelVisible) return null;
 
-  store.prompts.textExample = sampleText;
+  if (!authStore.isAuthenticated) {
+    return (
+      <div id="text-selection-extension-root">
+        <div className="flex fixed bottom-0 p-2 w-full flex-col justify-center items-center">
+          <div className="flex relative flex-col items-center w-[300px]">
+            <LoginForm />
+            <span
+              onClick={async () => {
+                await LoginStore.handleLogin();
+                await chrome.storage.local.set({
+                  token: getLocalItem<string>("token"),
+                });
+              }}
+              className="basic-btn align-center mt-3 min-w-full justify-center rounded-md bg-slate-500 p-2 px-3 text-white"
+            >
+              <i className="ri-login-box-fill"></i>
+              Login
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="text-selection-extension-root">
-      <textarea
-        className="w-full resize-none rounded border bg-yellow-50 p-2 text-sm"
-        rows={5}
-        placeholder="Your text to experiment..."
-        value={store.prompts.textExample}
-        onChange={(e) => (store.prompts.textExample = e.target.value)}
-        onKeyDown={(event) => event.stopPropagation()}
-      />
       <Prompts store={store.prompts} />
     </div>
   );

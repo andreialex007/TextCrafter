@@ -18,7 +18,7 @@ class LoginStore {
   this.password = password;
  }
 
- async handleLogin(navigate: (path: string) => void) {
+ async handleLogin() {
   const response = await axios.post<{ token: string }>(
    '/auth/token',
    {

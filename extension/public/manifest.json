@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "description": "Shows selected text in a panel",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "content_scripts": [
     {

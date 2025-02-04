@@ -3,9 +3,10 @@ import PromptStore from "./../../../front/src/Pages/Prompts/Store.ts";
 
 class SelectionStore {
   @observable
-  selectedText: string = "";
+  isPanelVisible: boolean = false;
+
   @observable
-  isPanelVisible: boolean = true;
+  isLoaded = false;
 
   prompts: PromptStore = new PromptStore();
 
@@ -14,7 +15,7 @@ class SelectionStore {
   }
 
   setSelectedText(text: string) {
-    this.selectedText = text;
+    this.prompts.textExample = text;
   }
 
   togglePanel(visible?: boolean) {
