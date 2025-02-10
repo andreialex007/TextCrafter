@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "devNew": "vite",
     "buildNew": "tsc -b && vite build",
     "lint": "eslint my-chrome-extension",
     "preview": "vite preview"
@@ -13,7 +13,9 @@
     "mobx": "^6.13.6",
     "mobx-react-lite": "^4.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-children": "^0.5.0",
+    "tailwindcss-hero-patterns": "^0.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

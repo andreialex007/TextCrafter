@@ -1,9 +1,10 @@
-/** @type {import('tailwindcss').Config} */
+import tailwindChildren from "tailwind-children";
+import hero from "tailwindcss-hero-patterns";
+
 export default {
-  content: [],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },
-  plugins: [],
-}
-
+  plugins: [tailwindChildren, hero],
+};
