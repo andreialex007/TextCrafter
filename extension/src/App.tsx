@@ -17,7 +17,7 @@ let text = `A smartphone is a mobile device that combines the functionality of a
 function App() {
   return (
     <>
-      <textarea style={{ width: "100%" }} rows={5} value={text}></textarea>
+      <textarea style={{ width: "100%" }} rows={5} value={"Экран"}></textarea>
       <Panel />
     </>
   );
