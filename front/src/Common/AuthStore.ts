@@ -1,27 +1,26 @@
-import { makeAutoObservable } from 'mobx';
+import { computed, makeAutoObservable, makeObservable, observable } from 'mobx';
 import { getLocalItem, setLocalItem } from './Utils';
 import axios from 'axios';
 
 class AuthStore {
+ @observable
  name: string | null = null;
+ @observable
  id: number | null = null;
+ @observable
  role: string | null = null;
 
+ @computed
  get isAuthenticated() {
-  return !!getLocalItem<string>('token');
+  return !!this.id;
  }
-
+ @computed
  get isAdmin() {
   return (this.role ?? '') === 'admin';
  }
 
- login(token: string, reload = true) {
+ login(token: string) {
   setLocalItem<string>('token', token);
-  if (reload) {
-   location.href = '/';
-  } else {
-   this.refresh();
-  }
  }
 
  async logout(redirect: boolean = true) {
@@ -34,17 +33,12 @@ class AuthStore {
   );
   setLocalItem<string>('token', '');
 
-  if (redirect) {
-   location.href = '/login';
-  } else {
-   location.reload();
-  }
-  this.refresh();
+  this.id = null;
  }
 
  refresh = () => {
   this.refreshAxios();
-  if (this.isAuthenticated) {
+  if (!!getLocalItem<string>('token')) {
    this.decodeToken(getLocalItem<string>('token')!);
    console.log('role=', this.role);
   }
@@ -69,7 +63,7 @@ class AuthStore {
  }
 
  constructor() {
-  makeAutoObservable(this);
+  makeObservable(this);
  }
 }
 

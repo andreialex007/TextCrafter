@@ -37,10 +37,8 @@ function App() {
             <LoginForm />
             <span
               onClick={async () => {
-                await LoginStore.handleLogin(false);
-                await chrome.storage.local.set({
-                  token: getLocalItem<string>("token"),
-                });
+                await LoginStore.handleLogin();
+                AuthStore.refresh();
               }}
               className="basic-btn align-center mt-3 min-w-full justify-center rounded-md bg-slate-500 p-2 px-3 text-white"
             >

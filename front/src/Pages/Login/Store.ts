@@ -18,7 +18,7 @@ class LoginStore {
   this.password = password;
  }
 
- async handleLogin(reload = true) {
+ async handleLogin() {
   const response = await axios.post<{ token: string }>(
    '/auth/token',
    {
@@ -29,7 +29,7 @@ class LoginStore {
     withCredentials: true,
    },
   );
-  AuthStore.login(response.data.token, reload);
+  AuthStore.login(response.data.token);
  }
 }
 
