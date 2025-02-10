@@ -15,12 +15,16 @@ class AuthStore {
   return (this.role ?? '') === 'admin';
  }
 
- login(token: string) {
+ login(token: string, reload = true) {
   setLocalItem<string>('token', token);
-  location.href = '/';
+  if (reload) {
+   location.href = '/';
+  } else {
+   this.refresh();
+  }
  }
 
- async logout() {
+ async logout(redirect: boolean = true) {
   await axios.post(
    `/auth/logout`,
    {},
@@ -30,7 +34,11 @@ class AuthStore {
   );
   setLocalItem<string>('token', '');
 
-  location.href = '/login';
+  if (redirect) {
+   location.href = '/login';
+  } else {
+   location.reload();
+  }
   this.refresh();
  }
 

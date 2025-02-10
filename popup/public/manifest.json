@@ -1,15 +1,28 @@
 {
   "manifest_version": 3,
-  "name": "Hello World Extension",
-  "version": "1.0.0",
-  "description": "A simple Hello World Chrome extension",
+  "name": "My Chrome Extension",
+  "version": "1.0",
+  "description": "A chrome extension built with Vite, React, MobX, and Tailwind",
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "index.html",
+    "default_title": "My Extension"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
   "permissions": [
-    "activeTab",
-    "scripting",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "commands": {
     "open-popup": {
@@ -18,9 +31,5 @@
       },
       "description": "Open popup with selected text"
     }
-  },
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
   }
 }
