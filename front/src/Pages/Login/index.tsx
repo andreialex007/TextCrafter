@@ -14,8 +14,9 @@ export default observer(() => {
 
  return (
   <div className="flex  min-h-screen flex-col items-center justify-center bg-gray-100">
-   <LoginForm />
    <div className=" flex w-fit flex-col gap-3 rounded-3xl bg-white p-5 shadow-2xl">
+    <LoginForm />
+
     <span
      onClick={() => {
       LoginStore.handleLogin();
