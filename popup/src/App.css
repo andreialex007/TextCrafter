@@ -1,7 +1,7 @@
 html,
 body, #root {
-    width: 600px;
-    height: 900px;
+    width: 400px;
+    height: 600px;
     margin: 0;
     padding: 0;
     overflow: hidden;
