@@ -72,15 +72,15 @@ function App() {
 
   return (
     <div className="flex flex-col size-full">
-      <div className="flex w-full shadow-md bg-yellow-50 mb-5">
-        <span className="flex-grow flex gap-2 px-4 py-3 ">
-          <i className="ri-home-fill"></i>
-          <span>Text Crafter</span>
+      <div className="flex w-full shadow-md bg-yellow-50 mb-2">
+        <span className="flex-grow bg-slate-700 text-white flex gap-2 px-4 py-3 ">
+          <i className="ri-ball-pen-fill"></i>
+          <span className="italic font-bold uppercase">Text Crafter</span>
         </span>
         <span
           onClick={() => AuthStore.logout(false)}
-          className="px-4 py-3 bg-red-100 cursor-pointer
-          hover:opacity-60 text-gray-500"
+          className="px-4 py-3 bg-gray-600 text-white cursor-pointer
+          hover:opacity-90 text-gray-500"
         >
           Logout <i className="ri-close-circle-fill"></i>
         </span>
