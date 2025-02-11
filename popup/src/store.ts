@@ -1,14 +1,15 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, makeObservable } from "mobx";
+import PromptStore from "./../../front/src/Pages/Prompts/Store.ts";
 
 class ExtensionStore {
-  selectedText = "";
+  prompts: PromptStore = new PromptStore();
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this);
   }
 
   setSelectedText(text: string) {
-    this.selectedText = text;
+    this.prompts.textExample = text;
   }
 }
 

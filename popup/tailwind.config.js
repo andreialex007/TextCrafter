@@ -2,7 +2,11 @@ import tailwindChildren from "tailwind-children";
 import hero from "tailwindcss-hero-patterns";
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./../front/src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {},
   },

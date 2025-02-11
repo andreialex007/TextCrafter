@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
+import "./index.css";
 import "./App.css";
 import store from "./store";
 import Prompts from "../../front/src/Pages/Prompts/Prompts";
@@ -18,6 +19,22 @@ import AuthStore from "../../front/src/Common/AuthStore.ts";
 initAxios("http://127.0.0.1:8055");
 authStore.refresh();
 
+store.prompts.onPromptApplied = (prompt: string) => {
+  try {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId = tabs[0]?.id;
+      if (!tabId) return;
+      chrome.tabs.sendMessage(tabId, {
+        type: "APPLY_PROMPT",
+        prompt: prompt,
+      });
+      window.close();
+    });
+  } catch (e) {
+    console.log("prompt applied = ", prompt);
+  }
+};
+
 function App() {
   useEffect(() => {
     try {
@@ -25,7 +42,9 @@ function App() {
         store.setSelectedText(result.selectedText || "");
       });
     } catch (e) {
-      store.selectedText = "my custom selected text";
+      store.setSelectedText(
+        "A smartphone is a mobile device that combines the functionality of a traditional mobile phone with advanced computing capabilities. It typically has a touchscreen interface, allowing users to access a wide range of applications and services, such as web browsing, email, and social media, as well as multimedia playback and streaming. Smartphones have built-in cameras, GPS navigation, and support for various communication methods, including voice calls, text messaging, and internet-based messaging apps.\n\nSmartphones are distinguished from older-design feature phones by their more advanced hardware capabilities and extensive mobile operating systems, access to the internet, business applications, mobile payments, and multimedia functionality, including music, video, gaming, radio, and television.",
+      );
     }
   }, []);
 
@@ -53,21 +72,20 @@ function App() {
 
   return (
     <div className="flex flex-col size-full">
-      <div className="flex w-full shadow-md bg-yellow-50 ">
+      <div className="flex w-full shadow-md bg-yellow-50 mb-5">
         <span className="flex-grow flex gap-2 px-4 py-3 ">
           <i className="ri-home-fill"></i>
           <span>Text Crafter</span>
         </span>
         <span
           onClick={() => AuthStore.logout(false)}
-          className="px-4 py-3 bg-gray-100 cursor-pointer hover:opacity-60 text-gray-500"
+          className="px-4 py-3 bg-red-100 cursor-pointer
+          hover:opacity-60 text-gray-500"
         >
           Logout <i className="ri-close-circle-fill"></i>
         </span>
       </div>
-      <div className="p-4 w-fit rounded bg-gray-200">Test</div>
-      <h1 className="text-xl font-bold">Selected Text</h1>
-      <p className="mt-2">{store.selectedText}</p>
+      <Prompts store={store.prompts} />
     </div>
   );
 }

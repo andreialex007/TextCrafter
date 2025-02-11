@@ -88,6 +88,7 @@ export default class Store extends NavItem {
  onApplyPrompt = () => {
   let promptText = this.resultViewStore.selectedPromptText;
   this.textExample = promptText;
+  this.onPromptApplied(promptText);
  };
 
  onCategorySave = () => {
@@ -244,4 +245,6 @@ export default class Store extends NavItem {
   this.deselectAllPrompts();
   visiblePrompts[currentIndex + 1].selected = true;
  };
+
+ onPromptApplied = (prompt: string) => {};
 }

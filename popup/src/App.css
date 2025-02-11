@@ -1,35 +1,9 @@
 html,
 body, #root {
-    width: 400px;
+    width: 800px;
     height: 600px;
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
-
-body > #root {
-    @apply bg-gray-50
-}
-
-.active-item {
-    @apply bg-orange-500 text-white cursor-default
-}
-
-.active-item:hover {
-    @apply bg-orange-500
-}
-
-.basic-input {
-    @apply w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none;
-}
-
-
-.basic-btn {
-    @apply cursor-pointer flex gap-1 hover:opacity-80 select-none w-fit rounded;
-}
-
-.basic-page {
-    @apply p-5
-}
-
 
