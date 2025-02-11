@@ -17,7 +17,10 @@ export default observer(() => {
    <LoginForm />
    <div className=" flex w-fit flex-col gap-3 rounded-3xl bg-white p-5 shadow-2xl">
     <span
-     onClick={() => LoginStore.handleLogin()}
+     onClick={() => {
+      LoginStore.handleLogin();
+      setTimeout(() => location.reload(), 300);
+     }}
      className="basic-btn align-center mt-3 min-w-full justify-center rounded-md bg-slate-500 p-2 px-3 text-white"
     >
      <i className="ri-login-box-fill"></i>
