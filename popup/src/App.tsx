@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div className="flex flex-col size-full">
-      <div className="flex w-full shadow-md bg-yellow-50 mb-2">
+      <div className="flex w-full shadow-md bg-yellow-50">
         <span className="flex-grow bg-slate-700 text-white flex gap-2 px-4 py-3 ">
           <i className="ri-ball-pen-fill"></i>
           <span className="italic font-bold uppercase">Text Crafter</span>
