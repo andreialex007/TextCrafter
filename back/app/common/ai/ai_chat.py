@@ -5,7 +5,9 @@ from common.ai.engines.openai_engine import OpenAiEngine
 
 class AiChat:
     @staticmethod
-    def get_suggestions(text: str, prompt: str) -> TextProcessingResult:
+    def get_suggestions(text: str, prompt: str, key: str,
+                        options: int = 3) -> TextProcessingResult:
         return ClaudeSonnetEngine.get_ai_response(
-            f"{prompt} (generate 3 variants): {text}",
+            f"{prompt} (generate {options} variants): {text}",
+            key,
             TextProcessingResult)

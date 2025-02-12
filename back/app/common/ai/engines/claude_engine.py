@@ -13,9 +13,11 @@ T = TypeVar("T", bound=BaseModel)
 
 class ClaudeSonnetEngine:
     @staticmethod
-    def get_ai_response(prompt: str, response_model: Type[T],
+    def get_ai_response(prompt: str,
+                        key: str,
+                        response_model: Type[T],
                         model: str = "claude-3-5-sonnet-20240620") -> T:
-        api_key = os.getenv("CLAUDE_API_KEY")
+        api_key = key
         chat = ChatAnthropic(model_name=model, temperature=0, anthropic_api_key=api_key)
         schema = response_model.model_json_schema()
         faker = Faker()

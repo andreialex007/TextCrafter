@@ -27,7 +27,7 @@
   "commands": {
     "open-popup": {
       "suggested_key": {
-        "default": "Ctrl+Q"
+        "default": "Ctrl+Space"
       },
       "description": "Open popup with selected text"
     }

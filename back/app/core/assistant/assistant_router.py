@@ -24,6 +24,6 @@ async def options(
         user_id: int = Depends(get_current_user_id)
 ):
     text = request_body.text
-    promptId = request_body.promptId
-    suggestions = await assistant_service.get_suggestions(text, promptId)
+    prompt_id = request_body.promptId
+    suggestions = await assistant_service.get_suggestions(text, prompt_id, user_id)
     return suggestions

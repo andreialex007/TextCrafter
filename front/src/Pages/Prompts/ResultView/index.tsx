@@ -73,10 +73,9 @@ export default observer(({ store }: { store: Store }) => {
          <span
           key={index}
           onClick={() => store.setActiveTab(index)}
-          className={
-           'w-1/3 cursor-pointer truncate border border-gray-200 px-3 py-2 ' +
-           (store.activeTab === index ? 'bg-blue-100' : '')
-          }
+          className={`w-[${100 / store.options.length}%] cursor-pointer truncate border border-gray-200 px-3 py-2 ${
+           store.activeTab === index ? 'bg-blue-100' : ''
+          }`}
          >
           {x}
          </span>
