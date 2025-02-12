@@ -84,14 +84,14 @@ class SettingService(ServiceBase):
         existing_settings_dict = dict((s.name, s) for s in existing_settings)
         new_settings_dict = dict((x.name, x) for x in new_settings)
 
-        for setting in existing_settings_dict:
+        for setting in new_settings_dict:
             existing: SettingDto = existing_settings_dict.get(setting)
             input: SettingDto = new_settings_dict.get(setting)
             if input == None:
                 continue
-            if not existing.id:
+            if not existing:
                 self.db.add(
-                    Setting(user_id=user_id, name=existing.name, value=input.value))
-            if existing.id:
+                    Setting(user_id=user_id, name=input.name, value=input.value))
+            if existing:
                 existing.value = input.value
         await self.db.commit()

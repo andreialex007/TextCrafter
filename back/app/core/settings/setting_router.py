@@ -8,6 +8,7 @@ from core.auth.auth_utils import get_current_user_id
 from core.auth.security import security
 from core.settings.setting_dto import SettingDto, CreateSettingDto
 from core.settings.setting_service import get_setting_service, SettingService
+from core.users.user_service import UserService, get_user_service
 
 router = APIRouter(prefix="/settings",
                    tags=["settings"],
@@ -26,7 +27,7 @@ async def get_settings_by_user_id(
 async def create_setting(
         setting_data: List[SettingDto],
         user_id: int = Depends(get_current_user_id),
-        setting_service: SettingService = Depends(get_setting_service),
+        setting_service: SettingService = Depends(get_setting_service)
 ):
     await setting_service.update(user_id, setting_data)
     return JSONResponse(status_code=200,

@@ -13,9 +13,11 @@ T = TypeVar("T", bound=BaseModel)
 
 class OpenAiEngine:
     @staticmethod
-    def get_ai_response(prompt: str, response_model: Type[T],
+    def get_ai_response(prompt: str,
+                        key: str,
+                        response_model: Type[T],
                         model: str = "gpt-4o-mini") -> T:
-        api_key = os.getenv("GPT_KEY")
+        api_key = key
         chat = ChatOpenAI(model_name=model, temperature=0, openai_api_key=api_key)
         schema = response_model.model_json_schema()
         faker = Faker()

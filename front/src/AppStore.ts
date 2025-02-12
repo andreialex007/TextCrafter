@@ -41,7 +41,9 @@ export default class AppStore {
   let first: Array<any> = [this.homeStore, this.promptsStore];
   let second: Array<any> = [this.aboutStore];
   return first
-   .concat(AuthStore.isAdmin ? [this.usersStore, this.settingsStore] : [])
+   .concat(
+    AuthStore.isAdmin ? [this.usersStore, this.settingsStore] : [this.settingsStore],
+   )
    .concat(second);
  }
 
